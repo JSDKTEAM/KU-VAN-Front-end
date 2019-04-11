@@ -4,12 +4,14 @@ import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
 
 class Layout extends Component {
   state = {
-    showSideDrawer: false
+    showSideDrawer: false,
+    loginShow: false
   };
   render() {
     return (
       <Aux>
-        <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler} />
+        <Toolbar 
+        login = {this.state.loginShow}/>
         <main >{this.props.children}</main>
       </Aux>
     );
