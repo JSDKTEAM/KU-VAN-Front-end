@@ -5,7 +5,7 @@ import Toolbar from '../Navigation/Toolbar/Toolbar';
 
 const Home = () => (
     <div>
-        <Toolbar />
+        
     </div>
 );
 
