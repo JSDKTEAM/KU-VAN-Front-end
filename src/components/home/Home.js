@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Toolbar from '../Navigation/Toolbar/Toolbar';
+
 const Home = () => (
     <div>
-        <h1>Hello World!</h1>
-        <br/>
-        <Link to="/counter">Counter</Link>
+        <Toolbar />
     </div>
 );
 
