@@ -4,18 +4,20 @@ import {
     Route
 } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import Home from './home/Home';
+import Layout from '../hoc/Layout/Layout';
 
 const theme = createMuiTheme();
 
 const App = () => (
-    <Router>
-        <MuiThemeProvider theme={theme}>
-            <Route exact path="/" component={Home}/>
-            <Button variant="contained" color="primary" raised>+1</Button>
-        </MuiThemeProvider>
-    </Router>
+    <Layout>
+        <Router>
+            <MuiThemeProvider theme={theme}>
+                <Route exact path="/" component={Home}/>
+            
+            </MuiThemeProvider>
+        </Router>
+    </Layout>
 );
 
 export default App;
