@@ -14,7 +14,6 @@ const App = () => (
         <Router>
             <MuiThemeProvider theme={theme}>
                 <Route exact path="/" component={Home}/>
-            
             </MuiThemeProvider>
         </Router>
     </Layout>
