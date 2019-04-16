@@ -9,6 +9,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Modal from '../../UI/Modal/Modal'
 
+import NavigetionItem from '../NavigationItems/NavigationItem/NavigetionItem';
+
 const styles = {
   root: {
     flexGrow: 1,
