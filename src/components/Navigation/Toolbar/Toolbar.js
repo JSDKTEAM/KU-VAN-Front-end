@@ -7,6 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Modal from '../../UI/Modal/Modal'
+
+import NavigetionItem from '../NavigationItems/NavigationItem/NavigetionItem';
 
 const styles = {
   root: {
@@ -21,8 +24,22 @@ const styles = {
   },
 };
 
+// export const test = (tt) =>
+// {
+//   console.log(tt);
+// }
+
+function test(linkPath)
+{
+  // let currentPath = window.location.pathname;
+  // currentPath =  window.location.linkPath;
+  // window.location.href = window.location.origin + "/login";
+
+}
+
 function ButtonAppBar(props) {
   const { classes } = props;
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -31,9 +48,10 @@ function ButtonAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            News
+            KU-VAN
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={props.register}>Register</Button>
+          <Button color="inherit" onClick={props.login}>Login</Button>
         </Toolbar>
       </AppBar>
     </div>
