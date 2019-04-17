@@ -135,10 +135,11 @@ class Schedule extends React.Component {
                           <FormDialog
                             handleClickOpen = {this.handleClickOpen}
                             handleClose = {this.handleClose}
+                            handleContinue = {this.handleClose}
                             open = {this.state.open}
                             onClose = {this.handleClose}
                             nameOpenButton = "จอง"
-                            nameOkButton = "ยืนยัน"
+                            nameContinueButton = "ยืนยัน"
                             nameCancleButton = "ยกเลิก"
                           >
                           {dialogChildren}

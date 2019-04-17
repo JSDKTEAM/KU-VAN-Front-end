@@ -51,8 +51,8 @@ class FormDialog extends React.Component  {
             <Button onClick={this.props.handleClose} color="primary">
               {this.props.nameCancleButton}
             </Button>
-            <Button onClick={this.props.handleClose} color="primary">
-              {this.props.nameCancleButton}
+            <Button onClick={this.props.handleContinue} color="primary">
+              {this.props.nameContinueButton}
             </Button>
           </DialogActions>
         </Dialog>
