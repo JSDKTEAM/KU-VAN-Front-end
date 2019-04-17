@@ -38,6 +38,7 @@ const styles = theme => ({
 class Stations extends Component {
     state = {
         book:false,
+        port_id : 0,
     }
     bookingHandler = () => {
         this.setState({
@@ -53,6 +54,7 @@ class Stations extends Component {
 
     handleChange = (event, value) => {
         this.props.onfetchSchedule(value+1);
+        this.setState({port_id:value});
     };
 
     render() {
@@ -71,21 +73,23 @@ class Stations extends Component {
                 date= { schedule.date } 
                 time_id= { schedule.time_id } 
                 time_out= { schedule.time_out } 
+                number_of_seats = {schedule.Car.number_of_seats}
                 checkLogin ={false}
                 booking = {this.bookingHandler}/>
+              
                 
             ))
         }
         return (
         <div className={classes.root}>
-            <AppBar position="static">
-                <Tabs  onChange={this.handleChange}  variant="fullWidth">
+            <AppBar position="static" >
+                <Tabs  value={this.state.port_id} onChange={this.handleChange} indicatorColor="secondary"  variant="fullWidth">
                     <Tab label="บางเขน" />
                     <Tab label="หมอชิต" />
                     <Tab label="ปิ่นเกล้า" />
                 </Tabs>
             </AppBar>
-            { scheduleItem } 
+            { scheduleItem }
            
             
         </div>
