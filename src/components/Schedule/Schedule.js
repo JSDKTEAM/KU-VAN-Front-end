@@ -78,11 +78,7 @@ class Schedule extends React.Component {
                 </Grid>
                 <Grid item xs>
                     ชื่อ : มาดีนะฮ์  หวังแจ่ม
-                  </Grid>
-                <Grid item xs>
-                    เพิ่มจำนวนที่นั่ง : 
-                    <AddIcon />
-                </Grid>
+                  </Grid> 
               </Grid>
             </DialogContentText>
             <TextField
@@ -144,7 +140,6 @@ class Schedule extends React.Component {
                           >
                           {dialogChildren}
                           </FormDialog>
-                            {/* <Fab variant="extended" size="large" color="primary" style={{width:"150px"}} className={classes.margin}><AddIcon/> จอง</Fab> */}
                           </Grid>
                         </Grid>
                       </Grid>
@@ -182,7 +177,18 @@ class Schedule extends React.Component {
                         <Grid item xs={4}  >
                           <Grid item xs container direction="column" justify="center" alignItems="center" spacing={24}>
                             <Grid item xs >
-                              <Fab variant="extended" size="large" color="primary" style={{ width: "150px" }} className={classes.margin}><AddIcon /> จอง</Fab>
+                            <FormDialog
+                              handleClickOpen = {this.handleClickOpen}
+                              handleClose = {this.handleClose}
+                              handleContinue = {this.handleClose}
+                              open = {this.state.open}
+                              onClose = {this.handleClose}
+                              nameOpenButton = "จอง"
+                              nameContinueButton = "ยืนยัน"
+                              nameCancleButton = "ยกเลิก"
+                              >
+                              {dialogChildren}
+                            </FormDialog>
                               <Fab variant="contained" size="large" color="secondary" className={classes.margin}><EyeIcon /></Fab>
                             </Grid>
                           </Grid>
