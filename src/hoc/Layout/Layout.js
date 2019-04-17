@@ -9,6 +9,12 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import axios from '../../axios-home';
+import { connect } from 'react-redux';
+import * as actionsTypes from '../../store/actions/index';
+import withErrorHandlar from '../../hoc/withErrorHandler/withErrorHandler';
+
+
 const loginfield = { username: null, password: null };
 
 const styles = theme => ({
@@ -56,9 +62,16 @@ class Layout extends Component {
     loginfield.password = value.target.value;
   };
 
+  checkAuth = () => {
+    this.props.authPostCheck(loginfield);
+  };
+
   render() {
     const { classes } = this.props;
-
+    console.log("1111");
+    console.log(this.props.username);
+    console.log(this.props.type_user);
+    console.log(this.props.token);
     return (
       <Aux>
         <Toolbar
@@ -87,7 +100,8 @@ class Layout extends Component {
             variant="contained"
             size="large"
             color="primary"
-            className={classes.textField + " " + classes.dense}>
+            className={classes.textField + " " + classes.dense}
+            onClick={(val) => { this.checkAuth(val); }}>
             Login</Button>
           <Button
             variant="outlined"
@@ -137,4 +151,15 @@ Layout.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Layout);
+const mapStateToProps = (state) => ({  
+  username: state.auth.username,
+  type_user: state.auth.type_user,
+  token: state.auth.token
+})
+
+const mapDispatchProps = dispacth => ({
+  authPostCheck: (loginfield) => dispacth(actionsTypes.authPostCheck(loginfield))
+})
+
+
+export default connect(mapStateToProps, mapDispatchProps)(withErrorHandlar((withStyles(styles))(Layout), axios));

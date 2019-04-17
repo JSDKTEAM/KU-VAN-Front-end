@@ -5,3 +5,7 @@ export const FETCH_SCHEDULE_SUCCESS = 'FETCH_SCHEDULE_SUCCESS';
 export const BOOK_ERROR = 'BOOK_ERROR';
 export const BOOK_START = 'BOOK_START';
 export const BOOK_SUCCESS = 'BOOK_SUCCESS';
+
+export const AUTH_POST_PASS = 'AUTH_POST_PASS';
+export const AUTH_POST_FAIL = 'AUTH_POST_FAIL';
+
