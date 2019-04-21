@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import stationsReducer from './store/reducers/stations';
 import authReducer from './store/reducers/auth';
 
+
 import './index.css';
 import App from './App';
 import registerServiceWorker from './serviceWorker';
@@ -26,6 +27,7 @@ const app = (
     <Provider store={store}>
         <BrowserRouter>
             <App />
+            
         </BrowserRouter>
     </Provider>
 

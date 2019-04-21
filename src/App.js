@@ -17,7 +17,6 @@ const theme = createMuiTheme({
     primary: {
       // light: will be calculated from palette.primary.main,
       main: '#00bc67',
-      mainGradient: "linear-gradient(to right, tomato, cyan)",
       // dark: will be calculated from palette.primary.main,
       contrastText: '#fff',
     },

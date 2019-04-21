@@ -34,10 +34,14 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    margin:theme.spacing.unit * 2,
+    paddingTop: theme.spacing.unit * 4,
+    paddingBottom: theme.spacing.unit * 4,
     borderRadius: "15px",
-    boxShadow: `0 5px 10px 0 rgba(0, 0, 0, 0.13)`,
+    boxShadow: `7px 4px 10px 0px rgba(0, 0, 0, 0.13)`,
+    borderLeft: "10px",
+    borderLeftStyle: 'solid',
+    borderLeftColor: "#09a76a",
   },
   margin: {
     margin: theme.spacing.unit,
@@ -121,8 +125,7 @@ class Schedule extends  Component {
               <Media query="(max-width: 599px)" className={classes.grid}>
                 {matches =>
                   matches ? (
-                    <div>
-
+                    <>
                       <Grid item xs={2}>
                         <Grid item xs container direction="column" justify="center" alignItems="center">
                           <Grid item xs>
@@ -167,10 +170,10 @@ class Schedule extends  Component {
                           </Grid>
                         </Grid>
                       </Grid>
-                    </div>
+                    </>
 
                   ) : (
-                      <div>
+                      <>
                         <Grid item xs={1}>
                           <Grid item xs container direction="column" justify="center" alignItems="center">
                             <Grid item xs>
@@ -201,7 +204,6 @@ class Schedule extends  Component {
                         <Grid item xs={4}  >
                           <Grid item xs container direction="column" justify="center" alignItems="center" spacing={24}>
                             <Grid item xs >
-                              
                               <FormDialog
                                 handleClickOpen={this.handleClickOpen}
                                 handleClose={this.handleClose}
@@ -213,13 +215,13 @@ class Schedule extends  Component {
                                 nameCancleButton="ยกเลิก"
                                 disabledBook = {this.props.authType_user==undefined? true:false}
                               >
-                                {dialogChildren}
+                              {dialogChildren}
                               </FormDialog>
                               <Fab variant="contained" size="large" color="secondary" className={classes.margin}><EyeIcon /></Fab>
                             </Grid>
                           </Grid>
                         </Grid>
-                      </div>
+                      </>
                     )
                 }
               </Media>
