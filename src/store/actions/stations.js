@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-home';
 // import axios from 'axios';
-
+import api from 'axios';
 export const fetchScheduleSuccess = (fetchedSchedule) => {
     return {
         type: actionTypes.FETCH_SCHEDULE_SUCCESS,
@@ -64,18 +64,15 @@ export const initialBookedStart = () => {
 }
 export const initialBooked= (token) => {
     console.log('[actiond] initialBooked'+token)
-    // let data = {
-    //     time_id: 1
-    // }
     return dispatch => {
         dispatch(initialBookedStart());
-        const AuthStr = 'Bearer '.concat(token);
-        axios.get('/reserves/times',{ headers: { Authorization: AuthStr },data: "",params: {
-            time_id: 1
-          } } )
+
+        axios.get('/reserves/times',{},{
+            headers: {'Authorization': "bearer " + token}
+        })
             .then(response => {
             // If request is good...
-            console.log('response.data');
+            console.log('response');
             })
             .catch((error) => {
                 console.log('error 3 ' + error);
