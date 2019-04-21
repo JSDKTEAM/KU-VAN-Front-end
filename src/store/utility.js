@@ -4,3 +4,9 @@ export const UpdateObject = (oldObject, updateObject) => {
         ...updateObject
     }
 }
+
+export const GetSessionUser = () => {
+    let userSession = JSON.parse(sessionStorage.getItem('UserSession'));
+    return userSession;
+    
+}
