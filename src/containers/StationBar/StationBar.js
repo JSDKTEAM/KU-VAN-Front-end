@@ -18,12 +18,12 @@ import { stat } from 'fs';
 import Modal from '../../components/UI/Modal/Modal';
 import socketIOClient from 'socket.io-client'
 
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import HomeIcon from '@material-ui/icons/Home';
-import RestoreIcon from '@material-ui/icons/Restore';
-import SettingsIcon from '@material-ui/icons/Settings';
-import CircularProgress from '@material-ui/core/CircularProgress';
+// import BottomNavigation from '@material-ui/core/BottomNavigation';
+// import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+// import HomeIcon from '@material-ui/icons/Home';
+// import RestoreIcon from '@material-ui/icons/Restore';
+// import SettingsIcon from '@material-ui/icons/Settings';
+// import CircularProgress from '@material-ui/core/CircularProgress';
 
 // function TabContainer(props) {
 //   return (

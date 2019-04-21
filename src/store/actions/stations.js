@@ -20,16 +20,16 @@ export const fetchScheduleStart = () => {
     };
 }
 export const fetchSchedule = (station) => {
-    console.log("ACTION [fetchSchedule]"+station);
+    console.log("ACTION [fetchSchedule]" + station);
     return dispatch => {
         dispatch(fetchScheduleStart());
-        axios.get('/times/ports/'+station,{
-           data: ""
-        },{
-            headers: {
-                'Contenr-type': 'aoolication/json'
-            }
-        })
+        axios.get('/times/ports/' + station, {
+            data: ""
+        }, {
+                headers: {
+                    'Contenr-type': 'aoolication/json'
+                }
+            })
             .then(res => {
                 let fetchedSchedule = [];
                 for (let key in res.data) {
@@ -62,44 +62,48 @@ export const initialBookedStart = () => {
         type: actionTypes.INITIALBOOKED_START
     };
 }
-export const initialBooked= (token) => {
-    console.log('[actiond] initialBooked'+token)
+export const initialBooked = (token) => {
+    console.log('[actiond] initialBooked' + token)
     // let data = {
     //     time_id: 1
     // }
     return dispatch => {
         dispatch(initialBookedStart());
-        const AuthStr = 'Bearer '.concat(token);
-        axios.get('/reserves/times',{ headers: { Authorization: AuthStr },data: "",params: {
-            time_id: 1
-          } } )
-            .then(response => {
+
+        const AuthStr = `Bearer ${token}`;
+        axios.get(`/reserves/times/1`, {
+            headers: {
+                'Authorization': AuthStr
+            }
+        })
+        .then(response => {
+            console.log(response);
             // If request is good...
             console.log('response.data');
-            })
-            .catch((error) => {
-                console.log('error 3 ' + error);
-            });
+        })
+        .catch((error) => {
+            console.log('error 3 ' + error);
+        });
     }
 }
 
 export const updateTimeId = (time) => {
     return {
-        type : actionTypes.UPDATE_TIME_ID,
-        time : time,
+        type: actionTypes.UPDATE_TIME_ID,
+        time: time,
     }
 }
 
 export const bookStart = () => {
     return {
-        type:actionTypes.BOOK_START,
+        type: actionTypes.BOOK_START,
     }
 }
 export const bookSuccess = (id, bookData) => {
     return {
         type: actionTypes.BOOK_SUCCESS,
         bookId: id,
-        bookData:bookData
+        bookData: bookData
     }
 }
 export const bookError = (error) => {
@@ -114,15 +118,15 @@ export const book = (bookData) => {
         "destination": bookData.destination || "empty"
     }
     const token = bookData.token;
-    return dispatch => { 
+    return dispatch => {
         dispatch(bookStart());
-        axios.post('/reserves/',{ headers: {"Authorization" : `Bearer ${token}`} },data)
-        .then(res => {
-            console.log(res.data);
-            //dispatch(bookSuccess(res.data.name, bookData))
-        })
-        .catch(err => {
-            dispatch(bookError(err));
-        });
+        axios.post('/reserves/', { headers: { "Authorization": `Bearer ${token}` } }, data)
+            .then(res => {
+                console.log(res.data);
+                //dispatch(bookSuccess(res.data.name, bookData))
+            })
+            .catch(err => {
+                dispatch(bookError(err));
+            });
     }
 }

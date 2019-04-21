@@ -26,6 +26,7 @@ export const authPostCheck = (fieldLogin) => {
             dispatch(authPostPass(res.data))
         })
         .catch(error => {
+            console.log(error);
             dispatch(authPostFail(error));
         });
     }
