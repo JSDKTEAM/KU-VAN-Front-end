@@ -216,7 +216,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchProps = dispacth => ({
     onfetchSchedule: (station) => dispacth(actionsTypes.fetchSchedule(station)),
-    onUpdateTimeId: (time) => dispacth(actionsTypes.updateTimeId(time))
+    onUpdateTimeId: (time) => dispacth(actionsTypes.updateTimeId(time)),
     onInitialBook: (token) => dispacth(actionsTypes.initialBooked(token)),
 })
 
