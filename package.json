@@ -8,6 +8,8 @@
     "@material-ui/styles": "^3.0.0-alpha.10",
     "@material-ui/system": "^3.0.0-alpha.2",
     "axios": "^0.18.0",
+    "history": "^4.9.0",
+    "jwt-decode": "^2.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-media": "^1.9.2",
@@ -16,7 +18,8 @@
     "react-router-dom": "4.2.2",
     "react-scripts": "2.1.8",
     "redux": "3.7.2",
-    "redux-thunk": "2.2.0"
+    "redux-thunk": "2.2.0",
+    "socket.io-client": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
