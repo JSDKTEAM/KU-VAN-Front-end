@@ -7,9 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Modal from '../../UI/Modal/Modal'
-
-import NavigetionItem from '../NavigationItems/NavigationItem/NavigetionItem';
 
 const styles = {
   root: {
@@ -24,18 +21,18 @@ const styles = {
   },
 };
 
-// export const test = (tt) =>
+// // export const test = (tt) =>
+// // {
+// //   console.log(tt);
+// // }
+
+// function test(linkPath)
 // {
-//   console.log(tt);
+//   // let currentPath = window.location.pathname;
+//   // currentPath =  window.location.linkPath;
+//   // window.location.href = window.location.origin + "/login";
+
 // }
-
-function test(linkPath)
-{
-  // let currentPath = window.location.pathname;
-  // currentPath =  window.location.linkPath;
-  // window.location.href = window.location.origin + "/login";
-
-}
 
 function ButtonAppBar(props) {
   const { classes } = props;

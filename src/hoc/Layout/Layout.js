@@ -3,7 +3,7 @@ import Aux from "../AuxHoc/Aux";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
-import Modal from "../../components/UI/Modal/Modal"
+// import Modal from "../../components/UI/Modal/Modal"
 import SimpleModal from "../../components/UI/SimpleModal/SimpleModal"
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -68,10 +68,10 @@ class Layout extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log("1111");
-    console.log(this.props.username);
-    console.log(this.props.type_user);
-    console.log(this.props.token);
+    // console.log("1111");
+    // console.log(this.props.username);
+    // console.log(this.props.type_user);
+    // console.log(this.props.token);
     return (
       <Aux>
         <Toolbar

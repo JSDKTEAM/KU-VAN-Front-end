@@ -32,9 +32,10 @@ class FormDialog extends React.Component  {
           style={{width:"150px"}} 
           className={classes.margin} 
           onClick={this.props.handleClickOpen}
-            >
-          <AddIcon/> 
-          {this.props.nameButton}
+          disabled={this.props.disabledBook || false} >
+          <AddIcon />
+         {this.props.nameOpenButton}
+          
         </Fab>
         <Dialog
           open={this.props.open}
@@ -43,15 +44,15 @@ class FormDialog extends React.Component  {
         >
           <DialogTitle id="form-dialog-title">ข้อมูลการจอง</DialogTitle>
           <DialogContent>
-
-            {this.props.children}
+           
+               {this.props.children}
             
           </DialogContent>
           <DialogActions>
             <Button onClick={this.props.handleClose} color="primary">
               {this.props.nameCancleButton}
             </Button>
-            <Button onClick={this.props.handleContinue} color="primary">
+            <Button onClick={this.props.handleContinue} color="primary" >
               {this.props.nameContinueButton}
             </Button>
           </DialogActions>
