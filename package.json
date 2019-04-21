@@ -8,6 +8,8 @@
     "@material-ui/styles": "^3.0.0-alpha.10",
     "@material-ui/system": "^3.0.0-alpha.2",
     "axios": "^0.18.0",
+    "history": "^4.9.0",
+    "jwt-decode": "^2.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-media": "^1.9.2",
