@@ -26,6 +26,16 @@ const reducer = (state = initialState, action) => {
                 loading: false
             })
 
+        case actionTypes.UPDATE_TIME_ID:
+            const timeIndex = state.schedule.findIndex(s => {
+                return s.time_id == action.time.time_id
+            }) 
+            if(timeIndex >= 0){
+                const timeUpdate = [...state.schedule];
+                timeUpdate[timeIndex].count_seat = action.time.count_seat;
+                return  UpdateObject(state ,{schedule : timeUpdate} );
+            }
+           
         case actionTypes.BOOK_ERROR:
             return UpdateObject(state, {
                 loading: false

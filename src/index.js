@@ -6,6 +6,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import stationsReducer from './store/reducers/stations';
 
+
 import './index.css';
 import App from './App';
 import registerServiceWorker from './serviceWorker';
@@ -24,6 +25,7 @@ const app = (
     <Provider store={store}>
         <BrowserRouter>
             <App />
+            
         </BrowserRouter>
     </Provider>
 

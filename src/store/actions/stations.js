@@ -49,6 +49,13 @@ export const fetchSchedule = (station) => {
     }
 }
 
+export const updateTimeId = (time) => {
+    return {
+        type : actionTypes.UPDATE_TIME_ID,
+        time : time,
+    }
+}
+
 export const bookStart = () => {
     return {
         type:actionTypes.BOOK_START,
