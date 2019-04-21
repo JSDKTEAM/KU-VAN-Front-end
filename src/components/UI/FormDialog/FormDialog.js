@@ -32,9 +32,10 @@ class FormDialog extends React.Component  {
           style={{width:"150px", display:this.props.status == null ? true : this.props.status}} 
           className={classes.margin} 
           onClick={this.props.handleClickOpen}
-            >
-          <AddIcon/> 
-          {this.props.nameButton}
+          disabled={this.props.disabledBook || false} >
+          <AddIcon />
+         {this.props.nameOpenButton}
+          
         </Fab>
         <Dialog
           open={this.props.open}
@@ -43,8 +44,8 @@ class FormDialog extends React.Component  {
         >
           <DialogTitle id="form-dialog-title">{this.props.titlename == null ? "ข้อมูลการจอง" : this.props.titlename}</DialogTitle>
           <DialogContent>
-
-            {this.props.children}
+           
+               {this.props.children}
             
           </DialogContent>
           <DialogActions>

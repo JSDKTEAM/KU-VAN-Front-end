@@ -1,6 +1,8 @@
 export {
     fetchSchedule,
-    book
+    updateTimeId,
+    book,
+    initialBooked,
 } from './stations';
 
 export {

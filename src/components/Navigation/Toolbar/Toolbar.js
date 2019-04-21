@@ -25,18 +25,18 @@ const styles = {
   },
 };
 
-// export const test = (tt) =>
+// // export const test = (tt) =>
+// // {
+// //   console.log(tt);
+// // }
+
+// function test(linkPath)
 // {
-//   console.log(tt);
+//   // let currentPath = window.location.pathname;
+//   // currentPath =  window.location.linkPath;
+//   // window.location.href = window.location.origin + "/login";
+
 // }
-
-function test(linkPath)
-{
-  // let currentPath = window.location.pathname;
-  // currentPath =  window.location.linkPath;
-  // window.location.href = window.location.origin + "/login";
-
-}
 
 function ButtonAppBar(props) {
   const { classes } = props;
