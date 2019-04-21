@@ -3,7 +3,7 @@ import Aux from "../AuxHoc/Aux";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Toolbar from "../../components/Navigation/Toolbar/Toolbar";
-import Modal from "../../components/UI/Modal/Modal"
+import FormDialog from "../../components/UI/FormDialog/FormDialog"
 import SimpleModal from "../../components/UI/SimpleModal/SimpleModal"
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -13,6 +13,7 @@ import axios from '../../axios-home';
 import { connect } from 'react-redux';
 import * as actionsTypes from '../../store/actions/index';
 import withErrorHandlar from '../../hoc/withErrorHandler/withErrorHandler';
+import { GetSessionUser } from '../../store/utility';
 
 
 const loginfield = { username: null, password: null };
@@ -44,6 +45,7 @@ class Layout extends Component {
     showSideDrawer: false,
     loginShow: false,
     registerShow: false,
+    logout: false,
   };
 
   loginHandler = () => {
@@ -66,30 +68,72 @@ class Layout extends Component {
     this.props.authPostCheck(loginfield);
   };
 
+  handleClickOpen = () => {
+    this.setState({ loginShow: true });
+  };
+
+  handleClose = () => {
+    this.setState({ loginShow: false });
+  };
+
+  handleClickOpenR = () => {
+    this.setState({ registerShow: true });
+  };
+
+  handleCloseR = () => {
+    this.setState({ registerShow: false });
+  };
+
+  handleLogout = () => {
+    sessionStorage.removeItem('UserSession');
+    this.setState({ logout: !(this.state.logout) });
+  };
+
   render() {
     const { classes } = this.props;
-    console.log("1111");
-    console.log(this.props.username);
-    console.log(this.props.type_user);
-    console.log(this.props.token);
+
+    let sessionUser = GetSessionUser();
+    let haveLogin = "show";
+
+    if(sessionUser != null)
+    {
+      haveLogin = "none";
+    }
+    console.log(sessionUser);
+    // if(this.props.loginStatus)
+    // {
+    //   this.state.loginShow = false;
+    // }
+
+    console.log(haveLogin);
     return (
       <Aux>
         <Toolbar
-          login={this.loginHandler}
-          register={this.registerHandler} />
+          login={this.handleClickOpen}
+          register={this.handleClickOpenR}
+          logout={this.handleLogout}
+          haveLogin={haveLogin} />
         <main>{this.props.children}</main>
-        <SimpleModal open={this.state.loginShow} onClose={this.loginHandler}>
-          <Typography variant="h6" id="modal-title">Login</Typography>
+
+        <FormDialog
+          handleClickOpen = {this.handleClickOpen}
+          handleClose = {this.handleClose}
+          handleContinue = {this.handleClose}
+          open = {this.state.loginShow}
+          onClose = {this.handleClose}
+          titlename = "เข้าสู่ระบบ"
+          status="none"
+        >
           <hr />
           <TextField
-            label="Username"
+            label="บัญชี"
             className={classes.textField}
             onKeyUp={(val) => { this.usernameHandler(val); }}
             margin="normal"
             variant="outlined"
           />
           <TextField
-            label="Password"
+            label="รหัสผ่าน"
             type="password"
             className={classes.textField}
             onKeyUp={(val) => { this.passwordHandler(val); }}
@@ -102,27 +146,35 @@ class Layout extends Component {
             color="primary"
             className={classes.textField + " " + classes.dense}
             onClick={(val) => { this.checkAuth(val); }}>
-            Login</Button>
+            เข้าสู่ระบบ</Button>
           <Button
             variant="outlined"
             size="large"
             color="primary"
-            className={classes.textField + " " + classes.dense}>
-            Back</Button>
-        </SimpleModal>
+            className={classes.textField + " " + classes.dense}
+            onClick={this.handleClose}>
+            กลับ</Button>
+        </FormDialog>
 
-        <SimpleModal open={this.state.registerShow} onClose={this.registerHandler}>
-          <Typography variant="h6" id="modal-title">Register</Typography>
-          <hr />
+        <FormDialog
+          handleClickOpen = {this.handleClickOpenR}
+          handleClose = {this.handleCloseR}
+          handleContinue = {this.handleCloseR}
+          open = {this.state.registerShow}
+          onClose = {this.handleCloseR}
+          titlename = "สมัครสมาชิก"
+          status="none"
+        >
+          <hr/>
           <TextField
-            label="Username"
+            label="บัญชี"
             className={classes.textField}
             onKeyUp={(val) => { this.usernameHandler(val); }}
             margin="normal"
             variant="outlined"
           />
           <TextField
-            label="Password"
+            label="รหัสผ่าน"
             type="password"
             className={classes.textField}
             onKeyUp={(val) => { this.passwordHandler(val); }}
@@ -134,14 +186,15 @@ class Layout extends Component {
             size="large"
             color="primary"
             className={classes.textField + " " + classes.dense}>
-            Register</Button>
+            ลงทะเบียน</Button>
           <Button
             variant="outlined"
             size="large"
             color="primary"
-            className={classes.textField + " " + classes.dense}>
-            Back</Button>
-        </SimpleModal>
+            className={classes.textField + " " + classes.dense}
+            onClick={this.handleCloseR}>
+            กลับ</Button>
+        </FormDialog>
       </Aux>
     );
   }
@@ -152,9 +205,7 @@ Layout.propTypes = {
 };
 
 const mapStateToProps = (state) => ({  
-  username: state.auth.username,
-  type_user: state.auth.type_user,
-  token: state.auth.token
+  loginStatus: state.auth.loginStatus
 })
 
 const mapDispatchProps = dispacth => ({

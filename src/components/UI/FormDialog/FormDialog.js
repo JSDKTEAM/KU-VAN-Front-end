@@ -29,7 +29,7 @@ class FormDialog extends React.Component  {
         <Fab 
           variant="extended" 
           size="large" color="primary" 
-          style={{width:"150px"}} 
+          style={{width:"150px", display:this.props.status == null ? true : this.props.status}} 
           className={classes.margin} 
           onClick={this.props.handleClickOpen}
             >
@@ -41,17 +41,17 @@ class FormDialog extends React.Component  {
           onClose={this.props.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">ข้อมูลการจอง</DialogTitle>
+          <DialogTitle id="form-dialog-title">{this.props.titlename == null ? "ข้อมูลการจอง" : this.props.titlename}</DialogTitle>
           <DialogContent>
 
             {this.props.children}
             
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.handleClose} color="primary">
+            <Button onClick={this.props.handleClose} color="primary" style={{display:this.props.status == null ? true : this.props.status}}>
               {this.props.nameCancleButton}
             </Button>
-            <Button onClick={this.props.handleContinue} color="primary">
+            <Button onClick={this.props.handleContinue} color="primary" style={{display:this.props.status == null ? true : this.props.status}}>
               {this.props.nameContinueButton}
             </Button>
           </DialogActions>
