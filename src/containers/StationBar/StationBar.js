@@ -4,9 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-// import Typography from '@material-ui/core/Typography';
 
-import Spinner from '../../components/UI/Spinner/Spinner';
 import axios from '../../axios-home';
 import { connect } from 'react-redux';
 import * as actionsTypes from '../../store/actions/index';
@@ -14,28 +12,9 @@ import withErrorHandlar from '../../hoc/withErrorHandler/withErrorHandler';
 import Schedule from '../../components/Schedule/Schedule';
 import ProcessType from '../../components/UI/Progress/Progress';
 import { stat } from 'fs';
-
-import Modal from '../../components/UI/Modal/Modal';
 import socketIOClient from 'socket.io-client'
 
-// import BottomNavigation from '@material-ui/core/BottomNavigation';
-// import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-// import HomeIcon from '@material-ui/icons/Home';
-// import RestoreIcon from '@material-ui/icons/Restore';
-// import SettingsIcon from '@material-ui/icons/Settings';
-// import CircularProgress from '@material-ui/core/CircularProgress';
-
-// function TabContainer(props) {
-//   return (
-//     <Typography component="div" style={{ padding: 8 * 3 }}>
-//       {props.children}
-//     </Typography>
-//   );
-// }
-
-// TabContainer.propTypes = {
-//   children: PropTypes.node.isRequired,
-// };
+import { GetSessionUser } from '../../store/utility';
 
 const styles = theme => ({
     root: {
@@ -49,12 +28,12 @@ const styles = theme => ({
     },
 
 });
-
-
+let sessionUser = GetSessionUser();
+var reserve= [];
 class Stations extends Component {
     state = {
         book: false,
-        port_id: 0,
+        port_id: 1,
         bottomPage : 1,
     }
     bookingHandler = () => {
@@ -63,26 +42,33 @@ class Stations extends Component {
         })
     }
     componentDidMount() {
-        let station = this.props.station;
-        if(this.props.authType_user !== undefined){
-            this.props.onInitialBook(this.props.authToken);
-            console.log('onInitialBook');
+        if(sessionUser !== null){
+            this.props.onInitialBook(this.state.port_id+1,sessionUser.token);
         }
-        this.props.onfetchSchedule(station);
-        console.log('componentDidMount()');
-        console.log(station);
+        this.props.onfetchSchedule(1);
         this.broadcastRes()
     }
-
-    handleChange = (event, value) => {
-        this.props.onfetchSchedule(value + 1);
-        this.setState({ port_id: value });
-    };
-
-    handleChangeBottomNav = (event,value) => {
-        console.log(value)
+    componentWillUpdate(nextProps, nextState) {
+        reserve = [...nextProps.initailBook];
     }
-
+    shouldComponentUpdate(nextProps,nextState) {
+        if (this.props.initailBook != nextProps.initailBook){
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    handleChange = (event, value) => {
+        if(sessionUser !== null){
+            this.props.onInitialBook(value+1,sessionUser.token);
+        }
+        this.props.onfetchSchedule(value + 1);
+        this.setState({ port_id: value+1 });
+        this.setState({namePort:value});
+       
+    };
     broadcastRes = () => {
         const socket = socketIOClient("localhost:9000");
         socket.on('broadcast', (time) => {
@@ -90,37 +76,10 @@ class Stations extends Component {
         })
     }
 
-    handleChange = (event, value) => {
-        this.props.onfetchSchedule(value+1);
-        this.setState({port_id:value});
-        this.setState({namePort:value});
-        if(this.props.authType_user !== undefined){
-            this.props.onInitialBook(this.props.authToken);
-            console.log('onInitialBook');
-        }
-    };
 
     render() {
-        const { classes } = this.props;
-        // let scheduleItem = <Spinner />;
-        // if (!this.props.loading) {
-        //     // console.log(this.props.schedule);
-        //     scheduleItem = this.props.schedule.map(schedule => (
-        //         <Schedule
-        //             key={schedule.time_id}
-        //             car_id={schedule.Car.car_id}
-        //             license_plate={schedule.Car.license_plate}
-        //             port_id={schedule.Car.port_id}
-        //             province={schedule.Car.province}
-        //             count_seat={schedule.count_seat}
-        //             date={schedule.date}
-        //             time_id={schedule.time_id}
-        //             time_out={schedule.time_out}
-        //             number_of_seats={schedule.Car.number_of_seats}
-        //             checkLogin={false}
-        //             booking={this.bookingHandler} />
-        //     ))
         let portName = "";
+        const { classes } = this.props;  
         switch (this.state.port_id) {
             case 0:
                 portName = "บางเขน"
@@ -135,41 +94,51 @@ class Stations extends Component {
             default:
                 break;
         }
+
         let scheduleItem = <ProcessType 
             typeProcess='line'/>;
-        let test = [];
         if (!this.props.loading ) {
-            // test = this.props.initailBook.map((reserve) => {
-            //     if(reserve.Reserves.user_id){
-
-            //     }
-            // });
-            const Reserve = [...this.props.initailBook];
-            console.log(Reserve);
-            // const timReserve = Reserve.Reserves[time_id];
-            let statusButtonBook = true;
+           
+            let statusButtonBook = false;
+            let statusButtonInitail = false;
+            sessionUser === null ?  statusButtonBook=true : statusButtonBook=false;
+            let check = [];
+            if(reserve != '') {
+                let getReserev = reserve[0];
+                console.log(sessionUser.user_id);
+                for (let key in getReserev) {
+                    check.push({
+                        time: getReserev[key].time_id,
+                        userID: getReserev[key].user_id
+                    })
+                }      
+            }
             scheduleItem = this.props.schedule.map(schedule => {
-                // if( timReserve.find(time_id => (time_id === schedule.time_id)) == true ) {
-                //     statusButtonBook=false;
-                // }
-                // else{
-                //     statusButtonBook=true
-                // }
+                statusButtonInitail = false;
+                console.log('sessID: '+sessionUser.user_id);
+                check.map((data,index) => {
+                    console.log('schedule.time_id: '+schedule.time_id);
+                    console.log('data.time_id: '+data.time);
+                    console.log('data.userID: '+data.userID);
+                    if((schedule.time_id == data.time) && (sessionUser.user_id == data.userID)){
+                        statusButtonInitail = true;
+                    } 
+                });
                 return <Schedule 
-                        key={ schedule.time_id }
-                        portName = {portName}
-                        car_id={ schedule.Car.car_id }
-                        license_plate={ schedule.Car.license_plate } 
-                        port_id={ schedule.Car.port_id } 
-                        province={ schedule.Car.province } 
-                        count_seat= { schedule.count_seat } 
-                        date= { schedule.date } 
-                        time_id= { schedule.time_id } 
-                        time_out= { schedule.time_out } 
-                        number_of_seats = {schedule.Car.number_of_seats}
-                        checkLogin ={false}
-                        booking = {this.bookingHandler}
-                        statusButton = {statusButtonBook}
+                            key={ schedule.time_id }
+                            portName = {portName}
+                            car_id={ schedule.Car.car_id }
+                            license_plate={ schedule.Car.license_plate } 
+                            port_id={ schedule.Car.port_id } 
+                            province={ schedule.Car.province } 
+                            count_seat= { schedule.count_seat } 
+                            date= { schedule.date } 
+                            time_id= { schedule.time_id } 
+                            time_out= { schedule.time_out } 
+                            number_of_seats = {schedule.Car.number_of_seats}
+                            checkLogin ={false}
+                            booking = {this.bookingHandler}
+                            statusButton = {statusButtonBook || statusButtonInitail}
                     />
             });
         }
@@ -177,23 +146,13 @@ class Stations extends Component {
         return (
             <div className={classes.root}>
                 <AppBar position="static" >
-                    <Tabs value={this.state.port_id} onChange={this.handleChange} indicatorColor="secondary" variant="fullWidth">
-                        <Tab label="บางเขน" />
-                        <Tab label="หมอชิต" />
-                        <Tab label="ปิ่นเกล้า" />
+                    <Tabs value={this.state.port_id-1}  onChange={this.handleChange} indicatorColor="secondary" variant="fullWidth">
+                        <Tab  label="บางเขน" />
+                        <Tab  label="หมอชิต" />
+                        <Tab  label="ปิ่นเกล้า" />
                     </Tabs>
                 </AppBar>
                 {scheduleItem}
-                {/* <BottomNavigation
-                    value={0}
-                    onChange={this.handleChange}
-                    showLabels
-                    className={classes.stickToBottom}
-                >
-                    <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-                    <BottomNavigationAction label="History" icon={<RestoreIcon />} />
-                    <BottomNavigationAction label="Setting" icon={<SettingsIcon />} />
-                </BottomNavigation> */}
             </div>
 
         );
@@ -208,16 +167,13 @@ const mapStateToProps = (state) => ({
     schedule: state.stations.schedule,
     loading: state.stations.loading,
     book: state.stations.book,
-    authUsername: state.auth.username,
-    authType_user: state.auth.type_user,
-    authToken: state.auth.token,
     initailBook: state.stations.booked,
 })
 
 const mapDispatchProps = dispacth => ({
     onfetchSchedule: (station) => dispacth(actionsTypes.fetchSchedule(station)),
     onUpdateTimeId: (time) => dispacth(actionsTypes.updateTimeId(time)),
-    onInitialBook: (token) => dispacth(actionsTypes.initialBooked(token)),
+    onInitialBook: (port_id,token) => dispacth(actionsTypes.initialBooked(port_id,token)),
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(withErrorHandlar((withStyles(styles))(Stations), axios));

@@ -7,28 +7,20 @@ import withErrorHandlar from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-home';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-// import IconButton from '@material-ui/core/IconButton';
-// import DeleteIcon from '@material-ui/icons/Delete';
-// import AddIcon from '@material-ui/icons/AddCircle';
 import EyeIcon from '@material-ui/icons/RemoveRedEye'
-// import Icon from '@material-ui/core/Icon';
 import PersonIcon from '@material-ui/icons/Person';
 import ScheduleIcon from '@material-ui/icons/Schedule'
 
-// import List from '@material-ui/core/List';
+
 import ListItem from '@material-ui/core/ListItem';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-// import iconBook from '../../assets/iconBook.png';
-// import SvgIcon from '@material-ui/core/SvgIcon';
+
 import Media from 'react-media';
 import Grid from '@material-ui/core/Grid';
-// import Button from '@material-ui/core/Button';
+
 import Fab from '@material-ui/core/Fab';
 
 import FormDialog from '../UI/FormDialog/FormDialog';
 import TextField from '@material-ui/core/TextField';
-import DialogContentText from '@material-ui/core/DialogContentText';
 
 
 const styles = theme => ({
@@ -162,8 +154,7 @@ class Schedule extends  Component {
                               nameOpenButton="จอง"
                               nameContinueButton="ยืนยัน"
                               nameCancleButton="ยกเลิก"
-                              disabledBook = {this.props.authType_user==undefined? true:false &&
-                                this.props.statusButton}
+                              disabledBook = {this.props.statusButton}
                             >
                               {dialogChildren}
                             </FormDialog>
