@@ -79,6 +79,7 @@ class Layout extends Component {
   handleLogout = () => {
     sessionStorage.removeItem('UserSession');
     this.setState({ loginShow: false });
+    this.props.refeshStation();
   };
 
   render() {
@@ -201,7 +202,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchProps = dispacth => ({
-  authPostCheck: (loginfield) => dispacth(actionsTypes.authPostCheck(loginfield))
+  authPostCheck: (loginfield) => dispacth(actionsTypes.authPostCheck(loginfield)),
+  refeshStation: () => dispacth(actionsTypes.refeshStation()),
 })
 
 
