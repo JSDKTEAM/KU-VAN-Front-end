@@ -2,6 +2,11 @@ import * as actionTypes from './actionTypes';
 import axios from '../../axios-home';
 // import axios from 'axios';
 import api from 'axios';
+export const refeshStation = () => {
+    return {
+        type: actionTypes.REFESH_STATION
+    }
+};
 export const fetchScheduleSuccess = (fetchedSchedule) => {
     return {
         type: actionTypes.FETCH_SCHEDULE_SUCCESS,

@@ -17,3 +17,4 @@ export const AUTH_POST_FAIL = 'AUTH_POST_FAIL';
 export const SETTING_POST = 'SETTING_POST';
 export const GET_CAR_BY_PORT = 'GET_CAR_BY_PORT';
 
+export const REFESH_STATION = 'REFESH_STATION';
