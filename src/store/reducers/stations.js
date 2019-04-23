@@ -63,7 +63,10 @@ const reducer = (state = initialState, action) => {
             })
         case actionTypes.INITIALBOOKED_START:
             return UpdateObject(state, { loading: true });
-            
+        //REFESH 
+        case actionTypes.REFESH_STATION:
+            return UpdateObject(state, { refeshLogin: !(state.refeshLogin) });
+        
         default:
             return state;
     }

@@ -14,3 +14,4 @@ export const BOOK_SUCCESS = 'BOOK_SUCCESS';
 export const AUTH_POST_PASS = 'AUTH_POST_PASS';
 export const AUTH_POST_FAIL = 'AUTH_POST_FAIL';
 
+export const REFESH_STATION = 'REFESH_STATION';
