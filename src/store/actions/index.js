@@ -13,4 +13,5 @@ export {
 export {
     settingPost,
     getCarByPort,
+    getTimeDefaultByPort,
 }from './setting';
