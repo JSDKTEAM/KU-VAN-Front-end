@@ -58,6 +58,7 @@ class Layout extends Component {
 
   checkAuth = () => {
     this.props.authPostCheck(loginfield);
+    window.location.href = window.location.origin;
   };
 
   handleClickOpen = () => {
@@ -79,6 +80,8 @@ class Layout extends Component {
   handleLogout = () => {
     sessionStorage.removeItem('UserSession');
     this.setState({ loginShow: false });
+    window.location.href = window.location.origin;
+
   };
 
   render() {
