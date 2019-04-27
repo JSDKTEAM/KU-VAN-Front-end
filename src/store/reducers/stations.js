@@ -6,7 +6,8 @@ const initialState = {
     loading: false,
     book: false,
     stations: 1,
-    booked: []
+    booked: [],
+    refeshLogin: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -49,6 +50,7 @@ const reducer = (state = initialState, action) => {
             })
         case actionTypes.BOOK_START:
             return UpdateObject(state, { loading: true, book: true });
+
         // INITIALBOOKED
         case actionTypes.INITIALBOOKED_ERROR:
             return UpdateObject(state, {
@@ -56,12 +58,15 @@ const reducer = (state = initialState, action) => {
             })
         case actionTypes.INITIALBOOKED_SUCCESS:
             return UpdateObject(state, {
-                schedule: action.initailbooked,
+                booked: action.initailbooked,
                 loading: false
             })
         case actionTypes.INITIALBOOKED_START:
             return UpdateObject(state, { loading: true });
-            
+        //REFESH 
+        case actionTypes.REFESH_STATION:
+            return UpdateObject(state, { refeshLogin: !(state.refeshLogin) });
+        
         default:
             return state;
     }

@@ -48,14 +48,6 @@ class Layout extends Component {
     logout: false,
   };
 
-  loginHandler = () => {
-    this.setState({ loginShow: !(this.state.loginShow) });
-  };
-
-  registerHandler = () => {
-    this.setState({ registerShow: !(this.state.registerShow) });
-  };
-
   usernameHandler = (value) => {
     loginfield.username = value.target.value;
   };
@@ -66,6 +58,7 @@ class Layout extends Component {
 
   checkAuth = () => {
     this.props.authPostCheck(loginfield);
+    window.location.href = window.location.origin;
   };
 
   handleClickOpen = () => {
@@ -86,7 +79,9 @@ class Layout extends Component {
 
   handleLogout = () => {
     sessionStorage.removeItem('UserSession');
-    this.setState({ logout: !(this.state.logout) });
+    this.setState({ loginShow: false });
+    window.location.href = window.location.origin;
+
   };
 
   render() {
@@ -145,7 +140,7 @@ class Layout extends Component {
             size="large"
             color="primary"
             className={classes.textField + " " + classes.dense}
-            onClick={(val) => { this.checkAuth(val); }}>
+            onClick={(val) => { this.checkAuth(val); this.handleClose(); }}>
             เข้าสู่ระบบ</Button>
           <Button
             variant="outlined"

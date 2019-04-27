@@ -2,6 +2,11 @@ import * as actionTypes from './actionTypes';
 import axios from '../../axios-home';
 // import axios from 'axios';
 import api from 'axios';
+export const refeshStation = () => {
+    return {
+        type: actionTypes.REFESH_STATION
+    }
+};
 export const fetchScheduleSuccess = (fetchedSchedule) => {
     return {
         type: actionTypes.FETCH_SCHEDULE_SUCCESS,
@@ -20,7 +25,6 @@ export const fetchScheduleStart = () => {
     };
 }
 export const fetchSchedule = (station) => {
-    console.log("ACTION [fetchSchedule]" + station);
     return dispatch => {
         dispatch(fetchScheduleStart());
         axios.get('/times/ports/' + station, {
@@ -62,27 +66,28 @@ export const initialBookedStart = () => {
         type: actionTypes.INITIALBOOKED_START
     };
 }
-export const initialBooked = (token) => {
-    console.log('[actiond] initialBooked' + token)
-    // let data = {
-    //     time_id: 1
-    // }
+export const initialBooked = (port_id,token) => {
     return dispatch => {
         dispatch(initialBookedStart());
-
         const AuthStr = `Bearer ${token}`;
-        axios.get(`/reserves/times/1`, {
+        axios.get(`/reserves/ports/`+port_id, {
             headers: {
                 'Authorization': AuthStr
             }
         })
-        .then(response => {
-            console.log(response);
-            // If request is good...
-            console.log('response.data');
+        .then(res => {
+            let booked =[];  
+                booked.push({
+                    ...res.data
+                })
+            
+            //console.log('port_id: ');console.log(port_id);
+            
+            
+            dispatch(initialBookedSuccess(booked));
         })
         .catch((error) => {
-            console.log('error 3 ' + error);
+            dispatch(initialBookedError(error));
         });
     }
 }
@@ -125,8 +130,8 @@ export const book = (bookData) => {
                 console.log(res.data);
                 //dispatch(bookSuccess(res.data.name, bookData))
             })
-            .catch(err => {
-                dispatch(bookError(err));
+            .catch((error) => {
+                dispatch(bookError(error));
             });
     }
 }

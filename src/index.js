@@ -6,7 +6,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import stationsReducer from './store/reducers/stations';
 import authReducer from './store/reducers/auth';
-
+import settingReducer from './store/reducers/setting';
 
 import './index.css';
 import App from './App';
@@ -16,7 +16,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
     stations: stationsReducer,
-    auth: authReducer
+    auth: authReducer,
+    setting: settingReducer,
 })
 
 const store = createStore(rootReducer, composeEnhancers(
