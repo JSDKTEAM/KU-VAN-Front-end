@@ -41,7 +41,6 @@ const styles = {
 function ButtonAppBar(props) {
   const { classes } = props;
   let sessionuser = GetSessionUser();
-  console.log(sessionuser);
 
   if(sessionuser != null)
   {
