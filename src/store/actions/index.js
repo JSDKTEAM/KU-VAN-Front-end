@@ -2,6 +2,7 @@ export {
     fetchSchedule,
     updateTimeId,
     book,
+    cancleBook,
     initialBooked,
     refeshStation,
 } from './stations';
