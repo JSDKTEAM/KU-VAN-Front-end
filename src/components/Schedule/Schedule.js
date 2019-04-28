@@ -5,6 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import withErrorHandlar from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-home';
+import { GetSessionUser } from '../../store/utility';
+
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import EyeIcon from '@material-ui/icons/RemoveRedEye'
@@ -69,21 +71,25 @@ class Schedule extends  Component {
   handleClose = () => {
     this.setState({ open: false });
   };
-  handleContinue = (time_id, token) => {
-    dataBook.time_id = time_id;
-    dataBook.token = token;
-    let x = this.props.authType_user!=undefined? false:true;
-    console.log('Login :'+x);
+  handleContinue = (time_id,reserve_id) => {
+    const SESSION_USER = GetSessionUser();
+    if(reserve_id == null){
+      dataBook.time_id = time_id;
+      dataBook.token = SESSION_USER.token;
+      this.props.dataBookSchedule(dataBook);
+    }
+    else{
+       this.props.cancleBookSchedule(time_id,reserve_id,SESSION_USER.token); 
+    }
     this.setState({ open: false });
-    this.props.dataBookSchedule(dataBook);
-    
   };
   handleDestination = (value) => {
     dataBook.destination = value.target.value;
   }
 
-  render() {
+  render() { 
     const { classes } = this.props;
+    const checkObject = this.props.checkBooked;
     const dialogChildren = (
         <div>
             <Grid item xs container direction="column" spacing={16}>
@@ -94,20 +100,23 @@ class Schedule extends  Component {
                   <Typography>เวลารถออก : {this.props.time_out} น.</Typography> 
               </Grid>
               <Grid item xs>
-                  <Typography> ชื่อผู้จอง : {this.props.authUsername}</Typography>
+                  <Typography> ชื่อผู้จอง : {this.props.nameCustomer}</Typography>
               </Grid>
             </Grid>
             <TextField
               autoFocus
               margin="dense"
               id="name"
-              label="ระบุปลายทางของท่าน"
+              label={checkObject.destination ==null? "ระบุปลายทางของท่าน":checkObject.destination}
               fullWidth
               onKeyUp={(val) => { this.handleDestination(val); }}
+              disabled = {checkObject.time_id==null? false:true}
             />
         </div>
 
     );
+    
+
     return (
       <div className={classes.card}>
         <ListItem alignItems="flex-start">
@@ -148,13 +157,14 @@ class Schedule extends  Component {
                             <FormDialog
                               handleClickOpen={this.handleClickOpen}
                               handleClose={this.handleClose}
-                              handleContinue={(time_id, token) => this.handleContinue(this.props.time_id, this.props.authToken)}
+                              handleContinue={(time_id,reserve_id) => this.handleContinue(this.props.time_id,checkObject.reserve_id)}
                               open={this.state.open}
                               onClose={this.handleClose}
-                              nameOpenButton="จอง"
-                              nameContinueButton="ยืนยัน"
-                              nameCancleButton="ยกเลิก"
-                              disabledBook = {this.props.statusButton}
+                              nameOpenButton={checkObject.time_id==null? 'จอง':'ยกเลิกการจอง'}
+                              nameContinueButton= {checkObject.time_id==null? "ยืนยัน":"ยกเลิกการจอง"}
+                              nameCancleButton="ปิด"
+                              disabledBook = {!this.props.checkLogin}
+                              icon = {checkObject.time_id==null? 'ADD':'CANCLE'}
                             >
                               {dialogChildren}
                             </FormDialog>
@@ -198,13 +208,14 @@ class Schedule extends  Component {
                               <FormDialog
                                 handleClickOpen={this.handleClickOpen}
                                 handleClose={this.handleClose}
-                                handleContinue={(time_id, token) => this.handleContinue(this.props.time_id, this.props.authToken)}
+                                handleContinue={(time_id,reserve_id) => this.handleContinue(checkObject.time_id,checkObject.reserve_id)}
                                 open={this.state.open}
                                 onClose={this.handleClose}
-                                nameOpenButton="จอง"
-                                nameContinueButton="ยืนยัน"
-                                nameCancleButton="ยกเลิก"
-                                disabledBook = {this.props.authType_user==undefined? true:false}
+                                nameOpenButton={checkObject.time_id==null? 'จอง':'ยกเลิกการจอง'}
+                                nameContinueButton= {checkObject.time_id==null? "ยืนยัน":"ยกเลิกการจอง"}
+                                nameCancleButton="ปิด"
+                                disabledBook = {!this.props.checkLogin}
+                                icon = {checkObject.time_id==null? 'ADD':'CANCLE'}
                               >
                               {dialogChildren}
                               </FormDialog>
@@ -237,7 +248,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchProps = dispacth => ({
-  //dataBookSchedule: (dataBook) => dispacth(actionsTypes.book(dataBook))
+  dataBookSchedule: (dataBook) => dispacth(actionsTypes.book(dataBook)),
+  cancleBookSchedule: (time_id,resever_id,token) => dispacth(actionsTypes.cancleBook(time_id,resever_id,token))
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(withErrorHandlar((withStyles(styles))(Schedule), axios));

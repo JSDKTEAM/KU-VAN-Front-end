@@ -8,6 +8,7 @@ import Fab from '@material-ui/core/Fab';
 
 import { withStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
+import CancleIcon from '@material-ui/icons/Cancel';
 
 const styles = theme => ({
   root: {
@@ -24,6 +25,19 @@ const styles = theme => ({
 class FormDialog extends React.Component  {
   render() {
     const { classes } = this.props;
+    let icon;
+    switch (this.props.icon) {
+        case 'ADD':
+            icon = <AddIcon />
+            break;
+        case 'CANCLE':
+            icon = <CancleIcon />
+            break;
+
+        default:
+            icon = <AddIcon />
+            break;
+    }
     return (
       <div>
         <Fab 
@@ -33,7 +47,7 @@ class FormDialog extends React.Component  {
           className={classes.margin} 
           onClick={this.props.handleClickOpen}
           disabled={this.props.disabledBook || false} >
-          <AddIcon />
+         {icon}
          {this.props.nameOpenButton}
           
         </Fab>
