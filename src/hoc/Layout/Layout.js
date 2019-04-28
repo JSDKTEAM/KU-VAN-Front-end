@@ -204,8 +204,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchProps = dispacth => ({
-  authPostCheck: (loginfield) => dispacth(actionsTypes.authPostCheck(loginfield)),
-  refeshStation: () => dispacth(actionsTypes.refeshStation()),
+  authPostCheck: (loginfield) => dispacth(actionsTypes.authPostCheck(loginfield))
 })
 
 
