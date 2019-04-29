@@ -28,14 +28,19 @@ export const getTimeDefaultByPortSuccess = (result) => {
 };
 
 
-export const settingPost = (data) => {
+export const settingPost = (dataT, token) => {
     return dispatch => {
-        console.log("est");
-        console.log(data);
-        axios.post('/times', 
-        {            
-            times : data,    
-        })
+        let postData  = {
+            "times": dataT,
+        }
+
+        let axiosConfig = {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        };
+        axios.post('/times', postData, axiosConfig)
         .then(res => {
             dispatch(settingPostSuccess());
         })
@@ -45,11 +50,15 @@ export const settingPost = (data) => {
     }
 }
 
-export const getCarByPort = (port_id) => {
+export const getCarByPort = (port_id, token) => {
     return dispatch => {
         let url = "/cars/ports/" + port_id;
 
-        axios.get(url)
+        axios.get(url,{
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
         .then(res => {
             dispatch(getCarByPortSuccess(res.data));
         })
@@ -58,7 +67,8 @@ export const getCarByPort = (port_id) => {
     }
 }
 
-export const getTimeDefaultByPort = (port_id) => {
+//NOT USE
+export const getTimeDefaultByPort = (port_id, token) => {
     return dispatch => {
         let url = "/timesDefault/ports/" + port_id;
 

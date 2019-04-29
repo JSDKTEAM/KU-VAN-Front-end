@@ -15,3 +15,7 @@ export {
     getCarByPort,
     getTimeDefaultByPort,
 }from './setting';
+
+export {
+    vanPost,
+}from './vanManage';

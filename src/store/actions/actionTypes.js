@@ -19,4 +19,6 @@ export const SETTING_POST = 'SETTING_POST';
 export const GET_CAR_BY_PORT = 'GET_CAR_BY_PORT';
 export const GET_TIMEDEFAULT_BY_PORT = 'GET_TIMEDEFAULT_BY_PORT';
 
+export const VAN_POST = 'VAN_POST';
+
 export const REFESH_STATION = 'REFESH_STATION';

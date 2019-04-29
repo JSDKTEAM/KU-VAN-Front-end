@@ -46,8 +46,8 @@ class transection extends Component {
 
         transection = (           
 
-            <Grid item xs container direction="row" spacing={40} className={classes.formControl}  alignItems="center" justify="center">
-                <Grid item xs={7}>
+            <Grid item container direction="row" spacing={40} className={classes.formControl}  alignItems="center" justify="center">
+                <Grid item sm={7} xs={6}>
                     <TextField
                     value={this.props.attr.time_out[this.props.indexsq] == null ? "" : this.props.attr.time_out[this.props.indexsq]}
                     id="standard-name"
@@ -57,7 +57,7 @@ class transection extends Component {
                     className={classes.formControl}
                     />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item sm={3} xs={6}>
                     <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="age-simple">รถ</InputLabel>
                         <Select
@@ -77,7 +77,7 @@ class transection extends Component {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} >
+                <Grid item sm={1} xs={12}>
                     <Button 
                         variant="outlined" 
                         size="large" 

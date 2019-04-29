@@ -58,7 +58,7 @@ class Layout extends Component {
 
   checkAuth = () => {
     this.props.authPostCheck(loginfield);
-    window.location.href = window.location.origin;
+    // window.location.href = window.location.origin;
   };
 
   handleClickOpen = () => {

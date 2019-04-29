@@ -5,6 +5,7 @@ import axios from '../../axios-home';
 import { connect } from 'react-redux';
 import * as actionsTypes from '../../store/actions/index';
 import withErrorHandlar from '../../hoc/withErrorHandler/withErrorHandler';
+import { GetSessionUser } from '../../store/utility';
 
 import MainBtn from '../../components/Setting/mainBtn';
 import Transection from '../../components/Setting/transection'
@@ -42,6 +43,7 @@ const styles = theme => ({
     }
 });
 
+let sessionUser = GetSessionUser();
 let attr = { car_id: [], time_out: [], date: null };
 let port = 1;
 let dateSelect;
@@ -91,10 +93,23 @@ class Setting extends Component {
         this.props.getCarByPort(port);
     };
 
-    getTimeDefault = (value) => {
-        this.props.getTimeDefaultByPort(port);
-        console.log("TEST");
-        console.log(this.props.timedefault);
+    getTimeDefault = async (value) => {
+        let res = await axios.get('/timesDefault/ports/' + port, {
+            headers: {
+                'Authorization': `Bearer ${sessionUser.token}`,
+            }
+        });
+
+        let tempCount = [];
+        attr.car_id = [];
+        attr.time_out = [];
+
+        res.data.TimeDefaults.map((obj, index) => {
+            attr.time_out.push(obj.time_out);
+            tempCount.push("A");
+        });
+
+        this.setState({ count: tempCount});
     };
 
     saveTime = () => {
@@ -117,12 +132,12 @@ class Setting extends Component {
             attrTime.push({
                 car_id: attr.car_id[i],
                 time_out: attr.time_out[i],
-                date: dateSelect});
+                date: dateSelect + " 00:00:00"});
         }
 
         console.log(attrTime);
 
-        // this.props.onPostSetting(attrTime);
+        this.props.onPostSetting(attrTime);
 
         swal("Good job!", "You clicked the button!", "success");
 
@@ -149,8 +164,8 @@ class Setting extends Component {
             <div>
                 <Typography color="inherit" className={classes.grow + " " + classes.marginTop}>จัดการตารางการเดินรถ</Typography> 
 
-                <Grid item xs container direction="row" spacing={40} className={classes.centerT}>
-                    <Grid item xs={6}>
+                <Grid item container direction="row" spacing={40} className={classes.centerT}>
+                    <Grid item sm={6} xs={12}>
                         <FormControl className={classes.formControl}>
                             <InputLabel htmlFor="age-simple-1">วันที่</InputLabel>
                             <Select
@@ -165,7 +180,7 @@ class Setting extends Component {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item sm={6} xs={12}>
                         <FormControl className={classes.formControl}>
                             <InputLabel htmlFor="age-simple-2">ท่ารถ</InputLabel>
                             <Select
@@ -183,8 +198,8 @@ class Setting extends Component {
                     </Grid>
                 </Grid>
 
-                <Grid item xs container direction="row" spacing={40} className={classes.centerT}>
-                    <Grid item xs={4}>
+                <Grid item xs container direction="row" spacing={40}>
+                    <Grid item xs={12} style={{marginLeft:"20px"}}>
                         <MainBtn
                             tr={this.handleTest}
                             timeDef={this.getTimeDefault}></MainBtn>
@@ -206,7 +221,7 @@ class Setting extends Component {
                     </Grid>
                 </Grid>
 
-                <Grid item xs container direction="row" spacing={40} className={classes.centerT}>
+                <Grid item container direction="row" spacing={40} className={classes.centerT}>
                     <Grid item xs={12}>
                         <Button 
                             className={classes.formControl}
@@ -233,9 +248,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchProps = dispacth => ({
-    onPostSetting: (attrTime) => dispacth(actionsTypes.settingPost(attrTime)),
-    getCarByPort: (port) => dispacth(actionsTypes.getCarByPort(port)),
-    getTimeDefaultByPort: (loginfield) => dispacth(actionsTypes.getTimeDefaultByPort(loginfield)),
+    onPostSetting: (attrTime) => dispacth(actionsTypes.settingPost(attrTime,sessionUser.token)),
+    getCarByPort: (port) => dispacth(actionsTypes.getCarByPort(port,sessionUser.token)),
+    getTimeDefaultByPort: (loginfield) => dispacth(actionsTypes.getTimeDefaultByPort(loginfield,sessionUser.token)),
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(withErrorHandlar((withStyles(styles))(Setting), axios));
