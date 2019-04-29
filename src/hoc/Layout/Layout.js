@@ -59,6 +59,7 @@ class Layout extends Component {
   checkAuth = () => {
     this.props.authPostCheck(loginfield);
     // window.location.href = window.location.origin;
+    //window.location.href = window.location.origin;
   };
 
   handleClickOpen = () => {
@@ -72,7 +73,7 @@ class Layout extends Component {
   handleClickOpenR = () => {
     this.setState({ registerShow: true });
   };
-
+  
   handleCloseR = () => {
     this.setState({ registerShow: false });
   };
@@ -94,13 +95,13 @@ class Layout extends Component {
     {
       haveLogin = "none";
     }
-    console.log(sessionUser);
+    //console.log(sessionUser);
     // if(this.props.loginStatus)
     // {
     //   this.state.loginShow = false;
     // }
 
-    console.log(haveLogin);
+    //console.log(haveLogin);
     return (
       <Aux>
         <Toolbar

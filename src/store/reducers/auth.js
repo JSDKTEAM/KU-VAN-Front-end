@@ -20,8 +20,7 @@ const reducer = (state = initialState, action) => {
             }
 
             sessionStorage.setItem('UserSession', JSON.stringify(userSession));
-
-            return UpdateObject(state, { loginStatus: !(state.loginStatus)});
+            return UpdateObject(state, { loginStatus: true});
 
         case actionTypes.AUTH_POST_FAIL:
             return UpdateObject(state, { loginStatus: false });

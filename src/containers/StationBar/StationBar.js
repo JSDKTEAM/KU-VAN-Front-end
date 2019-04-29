@@ -28,46 +28,48 @@ const styles = theme => ({
     },
 
 });
-let sessionUser = GetSessionUser();
-var reserve= [];
+var SESSION_USER = GetSessionUser();
 class Stations extends Component {
     state = {
-        book: false,
+        //book: false,
         port_id: 1,
-        bottomPage : 1,
+        initailBook: [],
+        reserve: [],
+        portName: ''
     }
-    bookingHandler = () => {
-        this.setState({
-            book: true,
-        })
-    }
+    // bookingHandler = () => {
+    //     this.setState({
+    //         book: true,
+    //     })
+    // }
     componentDidMount() {
-        if(sessionUser !== null){
-            this.props.onInitialBook(this.state.port_id+1,sessionUser.token);
-        }
         this.props.onfetchSchedule(1);
-        this.broadcastRes()
+        this.broadcastRes();
     }
-    componentWillUpdate(nextProps, nextState) {
-        reserve = [...nextProps.initailBook];
-    }
-    shouldComponentUpdate(nextProps,nextState) {
-        if (this.props.initailBook != nextProps.initailBook){
-            return true;
+
+    componentWillReceiveProps(nextProps) {
+        let sessionUser = GetSessionUser();
+        if(nextProps.book==true && this.props.book == false){
+            this.props.onfetchSchedule(this.state.port_id);
+            this.props.onInitialBook(this.state.port_id, sessionUser.token);
         }
-        else
-        {
-            return false;
+
+        
+        if(this.props.checkLogin == false && nextProps.checkLogin == true){
+            this.props.onInitialBook(this.state.port_id, sessionUser.token);
+            this.props.onfetchSchedule(this.state.port_id);
+            this.broadcastRes();
         }
     }
     handleChange = (event, value) => {
-        if(sessionUser !== null){
-            this.props.onInitialBook(value+1,sessionUser.token);
+        if (this.props.checkLogin) {     // login success 
+            let SESSION_USER = GetSessionUser();
+            this.props.onInitialBook(value + 1, SESSION_USER.token);
         }
         this.props.onfetchSchedule(value + 1);
-        this.setState({ port_id: value+1 });
-        this.setState({namePort:value});
-       
+        this.setState({ port_id: value + 1 });
+        this.broadcastRes();
+
     };
     broadcastRes = () => {
         const socket = socketIOClient("localhost:9000");
@@ -76,80 +78,91 @@ class Stations extends Component {
         })
     }
 
-
     render() {
+        SESSION_USER = GetSessionUser();
         let portName = "";
-        const { classes } = this.props;  
+        const { classes } = this.props;
         switch (this.state.port_id) {
-            case 0:
+            case 1:
                 portName = "บางเขน"
                 break;
-            case 1:
+            case 2:
                 portName = "หมอชิต"
                 break;
-            case 2:
+            case 3:
                 portName = "ปิ่นเกล้า"
                 break;
-        
+
             default:
                 break;
         }
-
-        let scheduleItem = <ProcessType 
-            typeProcess='line'/>;
-        if (!this.props.loading ) {
-           
-            let statusButtonBook = false;
-            let statusButtonInitail = false;
-            sessionUser === null ?  statusButtonBook=true : statusButtonBook=false;
-            let check = [];
-            if(reserve != '') {
-                let getReserev = reserve[0];
-                console.log(sessionUser.user_id);
-                for (let key in getReserev) {
-                    check.push({
-                        time: getReserev[key].time_id,
-                        userID: getReserev[key].user_id
-                    })
-                }      
+        if (SESSION_USER == null) {
+            SESSION_USER = {
+                token: null,
+                type_user: null,
+                user_id: null,
+                username: null,
             }
+        }
+        let scheduleItem = <ProcessType
+            typeProcess='line' />;
+        if (!this.props.loading) {        
             scheduleItem = this.props.schedule.map(schedule => {
-                statusButtonInitail = false;
-                console.log('sessID: '+sessionUser.user_id);
-                check.map((data,index) => {
-                    console.log('schedule.time_id: '+schedule.time_id);
-                    console.log('data.time_id: '+data.time);
-                    console.log('data.userID: '+data.userID);
-                    if((schedule.time_id == data.time) && (sessionUser.user_id == data.userID)){
-                        statusButtonInitail = true;
-                    } 
-                });
-                return <Schedule 
-                            key={ schedule.time_id }
-                            portName = {portName}
-                            car_id={ schedule.Car.car_id }
-                            license_plate={ schedule.Car.license_plate } 
-                            port_id={ schedule.Car.port_id } 
-                            province={ schedule.Car.province } 
-                            count_seat= { schedule.count_seat } 
-                            date= { schedule.date } 
-                            time_id= { schedule.time_id } 
-                            time_out= { schedule.time_out } 
-                            number_of_seats = {schedule.Car.number_of_seats}
-                            checkLogin ={false}
-                            booking = {this.bookingHandler}
-                            statusButton = {statusButtonBook || statusButtonInitail}
-                    />
+                let bookedSchedule ={
+                    'time_id': null,
+                    'reserve_id': null,
+                    'destination': portName,
+                };
+                let sess = GetSessionUser();
+                if(this.props.booked == ''){
+                     console.log('empty');
+                }
+                else{
+                    
+                    this.props.booked.map((data,index) => {
+                        if (data.time_id == schedule.data.time_id && data.user_id == sess.user_id) {
+
+                            return (bookedSchedule = {
+                                'time_id': data.time_id,
+                                'reserve_id': data.reserve_id,
+                                'destination': data.destination,
+                            });
+                        }
+                    });
+                }
+              
+                return <Schedule
+                    key={schedule.data.time_id}
+                    nameCustomer={SESSION_USER != null ? SESSION_USER.username : null}
+                    portName={portName}
+                    car_id={schedule.data.Car.car_id}
+                    license_plate={schedule.data.Car.license_plate}
+                    port_id={schedule.data.Car.port_id}
+                    province={schedule.data.Car.province}
+                    count_seat={schedule.data.count_seat}
+                    date={schedule.data.date}
+                    time_id={schedule.data.time_id}
+                    token={SESSION_USER != null ? SESSION_USER.token : null}
+                    time_out={schedule.data.time_out}
+                    number_of_seats={schedule.data.Car.number_of_seats}
+
+                    checkLogin={this.props.checkLogin}
+                    checkBooked={bookedSchedule}
+                // ButtonBooked = {statusButtonBooked}
+                // cancleReserve = {cancleReserve}
+                // reserve_id = {reserve_id}
+                // destination = {destination}
+                />
             });
         }
 
         return (
             <div className={classes.root}>
                 <AppBar position="static" >
-                    <Tabs value={this.state.port_id-1}  onChange={this.handleChange} indicatorColor="secondary" variant="fullWidth">
-                        <Tab  label="บางเขน" />
-                        <Tab  label="หมอชิต" />
-                        <Tab  label="ปิ่นเกล้า" />
+                    <Tabs value={this.state.port_id-1} onChange={this.handleChange} indicatorColor="secondary" variant="fullWidth">
+                        <Tab label="บางเขน" />
+                        <Tab label="หมอชิต" />
+                        <Tab label="ปิ่นเกล้า" />
                     </Tabs>
                 </AppBar>
                 {scheduleItem}
@@ -167,13 +180,15 @@ const mapStateToProps = (state) => ({
     schedule: state.stations.schedule,
     loading: state.stations.loading,
     book: state.stations.book,
-    initailBook: state.stations.booked,
+    booked: state.stations.booked,
+    checkLogin: state.auth.loginStatus,
+    station: state.stations.stations,
 })
 
 const mapDispatchProps = dispacth => ({
     onfetchSchedule: (station) => dispacth(actionsTypes.fetchSchedule(station)),
     onUpdateTimeId: (time) => dispacth(actionsTypes.updateTimeId(time)),
-    onInitialBook: (port_id,token) => dispacth(actionsTypes.initialBooked(port_id,token)),
+    onInitialBook: (port_id, token) => dispacth(actionsTypes.initialBooked(port_id, token)),
 })
 
 export default connect(mapStateToProps, mapDispatchProps)(withErrorHandlar((withStyles(styles))(Stations), axios));
