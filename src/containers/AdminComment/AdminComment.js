@@ -7,7 +7,7 @@ import * as actionsTypes from '../../store/actions/index';
 import withErrorHandlar from '../../hoc/withErrorHandler/withErrorHandler';
 import { GetSessionUser } from '../../store/utility';
 
-import Vantran from '../../components/VanManage/vantran'
+import CommentTran from '../../components/CommentTran/commenttran'
 
 import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -56,7 +56,7 @@ let port = 1;
 let dateSelect;
 let sessionUser = GetSessionUser();
 
-class VanManage extends Component {
+class AdminComment extends Component {
     state = {
         statustest: false,
         count:["A","A","A"]
@@ -64,29 +64,24 @@ class VanManage extends Component {
 
     componentDidMount() {
         sessionUser = GetSessionUser();
-        this.props.vanGetByPort(port);
+        this.props.commentByPort(port);
     }
 
-    cardHandler = (value) => {
-        carfield.card = value.target.value;
-    };
+    // cardHandler = (value) => {
+    //     carfield.card = value.target.value;
+    // };
     
-    provinceHandler = (value) => {
-        carfield.province = value.target.value;
-    };
+    // provinceHandler = (value) => {
+    //     carfield.province = value.target.value;
+    // };
 
-    handleTest = (car_id) => {
-        this.props.vanDelete(car_id, port);
-    };
+    // handleTest = (car_id) => {
+    //     this.props.vanDelete(car_id, port);
+    // };
 
     selectChange = (value) => {
-        attr.car_id = [];
         port = value.target.value;
-        this.props.vanGetByPort(port);
-    };
-
-    addCar = () => {
-        this.props.vanPost(carfield, port);
+        this.props.commentByPort(port);
     };
 
     render() {
@@ -95,7 +90,7 @@ class VanManage extends Component {
 
         return (
             <div>
-                <Typography color="inherit" className={classes.grow + " " + classes.marginTop}>จัดการรถตู้</Typography>
+                <Typography color="inherit" className={classes.grow + " " + classes.marginTop}>ความคิดเห็นจากผู้ใช้</Typography>
 
                 <Grid item container direction="row" spacing={40} className={classes.centerT}>
                     <Grid item sm={12} xs={12}>
@@ -115,44 +110,14 @@ class VanManage extends Component {
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Typography color="inherit" className={classes.growLeft + " " + classes.marginLeft + " " + classes.marginTop}>เพิ่มรถตู้</Typography>
-                <Grid item container direction="row" spacing={8} className={classes.centerT}>
-                    <Grid item sm={12} xs={12}>
-                        <TextField
-                        id="standard-name"
-                        label="ทะเบียนรถ"
-                        margin="normal"
-                        onKeyUp={(val) => { this.cardHandler(val); }}
-                        className={classes.formControl}
-                        />
-                    </Grid>
-                    <Grid item sm={12} xs={12}>
-                        <TextField
-                        id="standard-name"
-                        label="จังหวัด"
-                        margin="normal"
-                        onKeyUp={(val) => { this.provinceHandler(val); }}
-                        className={classes.formControl}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button 
-                            className={classes.formControl}
-                            variant="contained"
-                            onClick={(val) => { this.addCar();}}
-                            color="primary">ยืนยัน</Button>
-                    </Grid>
-                </Grid>
                 <hr/>
-                <Typography color="inherit" className={classes.growLeft + " " + classes.marginLeft + " " + classes.marginTop}>รายละเอียดรถตู้</Typography>
                 <Grid item xs container direction="row" spacing={40} className={classes.centerT}>
                     <Grid item xs={12}>
                         {
-                            this.props.car.map((name, index) => {
-                                return <Vantran 
+                            this.props.reserve.map((name, index) => {
+                                return <CommentTran 
                                 indexsq={index}
-                                tr={this.handleTest}
-                                carByPort={this.props.car}
+                                comByPort={this.props.reserve}
                                 />;
                             })
                         }
@@ -163,19 +128,19 @@ class VanManage extends Component {
     }
 }
 
-VanManage.propTypes = {
+AdminComment.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-    status: state.vanManage.status,
-    car: state.vanManage.car,
+    status: state.comment.status,
+    reserve: state.comment.reserve,
 })
 
 const mapDispatchProps = dispacth => ({
-    vanGetByPort: (port) => dispacth(actionsTypes.vanGetByPort(port, sessionUser.token)),
-    vanPost: (carfield, port) => dispacth(actionsTypes.vanPost(carfield, port, sessionUser.token)),
-    vanDelete: (car_id, port) => dispacth(actionsTypes.vanDelete(car_id, port, sessionUser.token)),
+    commentByPort: (port) => dispacth(actionsTypes.commentByPort(port, sessionUser.token)),
+    // vanPost: (carfield, port) => dispacth(actionsTypes.vanPost(carfield, port, sessionUser.token)),
+    // vanDelete: (car_id, port) => dispacth(actionsTypes.vanDelete(car_id, port, sessionUser.token)),
 })
 
-export default connect(mapStateToProps, mapDispatchProps)(withErrorHandlar((withStyles(styles))(VanManage), axios));
+export default connect(mapStateToProps, mapDispatchProps)(withErrorHandlar((withStyles(styles))(AdminComment), axios));

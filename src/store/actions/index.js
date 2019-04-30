@@ -8,7 +8,8 @@ export {
 } from './stations';
 
 export {
-    authPostCheck
+    authPostCheck,
+    authRegister,
 }from './auth';
 
 export {
@@ -19,4 +20,10 @@ export {
 
 export {
     vanPost,
+    vanGetByPort,
+    vanDelete,
 }from './vanManage';
+
+export {
+    commentByPort,
+}from './comment';

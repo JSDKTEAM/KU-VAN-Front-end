@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-home';
+import swal from 'sweetalert';
 
 export const startWaitSetting = () => {
     return {
@@ -40,9 +41,17 @@ export const settingPost = (dataT, token) => {
                 'Content-Type': 'application/json'
             }
         };
-        axios.post('/times', postData, axiosConfig)
+
+        axios.delete('/times/date/' + dataT[0].date, axiosConfig)
         .then(res => {
-            dispatch(settingPostSuccess());
+            axios.post('/times', postData, axiosConfig)
+            .then(res => {
+                dispatch(settingPostSuccess());
+                swal("Good job!", "You clicked the button!", "success");
+            })
+            .catch(error => {
+                console.log(error);
+            });
         })
         .catch(error => {
             console.log(error);

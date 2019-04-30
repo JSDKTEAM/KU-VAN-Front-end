@@ -50,7 +50,7 @@ class vantran extends Component {
             <Grid item container direction="row" spacing={40} className={classes.formControl}  alignItems="center" justify="center">
                 <Grid item sm={7} xs={6}>
                     <TextField
-                    value="test"
+                    value={this.props.carByPort[this.props.indexsq].license_plate}
                     id="standard-name"
                     label="ทะเบียนรถ"
                     margin="normal"
@@ -61,7 +61,7 @@ class vantran extends Component {
                 </Grid>
                 <Grid item sm={3} xs={6}>
                     <TextField
-                    value="PPP"
+                    value={this.props.carByPort[this.props.indexsq].province}
                     id="standard-name"
                     label="จังหวัด"
                     margin="normal"
@@ -74,7 +74,8 @@ class vantran extends Component {
                     <Button 
                         variant="outlined" 
                         size="large" 
-                        color="error"><AddIcon/></Button>
+                        color="error"
+                        onClick={(val) => { this.props.tr(this.props.carByPort[this.props.indexsq].car_id);}}><AddIcon/></Button>
                 </Grid>
             </Grid>
         );

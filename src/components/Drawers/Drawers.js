@@ -18,6 +18,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import DateIcon from '@material-ui/icons/DateRange';
+import VanIcon from '@material-ui/icons/AirportShuttle';
+import CommentIcon from '@material-ui/icons/Forum';
+import { NavLink } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -94,12 +98,41 @@ class PersistentDrawerLeft extends React.Component {
   render() {
     const { classes, theme } = this.props;
     const { open } = this.state;
+    let drawer = '';
+
+    if(this.props.type == "ADMIN")
+    {
+      drawer =            
+            <List>
+              <NavLink style={{color:"white"}} to="/setting" exact onClick={this.handleDrawerClose}>
+                <ListItem button key="Schedule">
+                  <ListItemIcon><DateIcon/></ListItemIcon>
+                  <ListItemText primary="Schedule" />
+                </ListItem>
+              </NavLink>
+              <NavLink style={{color:"white"}} to="/vanManage" exact onClick={this.handleDrawerClose}>
+                <ListItem button key="Van">
+                  <ListItemIcon><VanIcon/></ListItemIcon>
+                  <ListItemText primary="Van" />
+                </ListItem>
+              </NavLink>
+              <NavLink style={{color:"white"}} to="/admincomment" exact onClick={this.handleDrawerClose}>
+                <ListItem button key="Comment">
+                  <ListItemIcon><CommentIcon/></ListItemIcon>
+                  <ListItemText primary="Comment" />
+                </ListItem>
+              </NavLink>
+            </List>
+    }
+    else if(this.props.type == "CUSTOMER")
+    {
+
+    }
 
     return (
       <div className={classes.root}>
         <CssBaseline />
-        
-          
+    
             <IconButton
               color="inherit"
               aria-label="Open drawer"
@@ -110,7 +143,6 @@ class PersistentDrawerLeft extends React.Component {
             </IconButton>
 
         <Drawer
-          // className={classes.drawer}
           variant="persistent"
           anchor="left"
           open={open}
@@ -124,23 +156,9 @@ class PersistentDrawerLeft extends React.Component {
             </IconButton>
           </div>
           <Divider />
-          <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
+
+          { drawer }
+
         </Drawer>
         
       </div>

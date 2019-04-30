@@ -25,6 +25,10 @@ const reducer = (state = initialState, action) => {
         case actionTypes.AUTH_POST_FAIL:
             return UpdateObject(state, { loginStatus: false });
 
+        case actionTypes.AUTH_REGISTER:
+            window.location.href = window.location.origin;
+            return state;
+
         default:
             return state;
     }

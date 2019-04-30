@@ -8,6 +8,7 @@ import stationsReducer from './store/reducers/stations';
 import authReducer from './store/reducers/auth';
 import settingReducer from './store/reducers/setting';
 import vanManageReducer from './store/reducers/vanManage';
+import commentReducer from './store/reducers/comment';
 
 import './index.css';
 import App from './App';
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     setting: settingReducer,
     vanManage: vanManageReducer,
+    comment: commentReducer,
 })
 
 const store = createStore(rootReducer, composeEnhancers(

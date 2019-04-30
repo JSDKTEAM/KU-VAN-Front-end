@@ -53,23 +53,17 @@ function ButtonAppBar(props) {
     let drawer ='';
     if(sessionuser.type_user == "ADMIN")
     {
-      status = "show";
+      drawer = <Drawers type="ADMIN"/>
     }
     else if(sessionuser.type_user == "CUSTOMER")
     {
-      drawer = <Drawers />
+      drawer = <Drawers type="CUSTOMER"/>
     }
 
     return (
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" style={{display: status}} >
-              <NavLink style={{color:"white"}} to="/setting" exact ><MenuIcon/></NavLink>
-            </IconButton>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" style={{display: status}} >
-              <NavLink style={{color:"white"}} to="/vanManage" exact ><VanIcon/></NavLink>
-            </IconButton>
 
             { drawer }
 

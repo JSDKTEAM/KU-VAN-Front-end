@@ -4,8 +4,6 @@ import { UpdateObject } from '../utility';
 const initialState = {
     status: false,
     car:[],
-    timedefault:[],
-    loading:false
 }
 
 const reducer = (state = initialState, action) => {
@@ -13,19 +11,15 @@ const reducer = (state = initialState, action) => {
         
         case actionTypes.VAN_POST:       
 
-            // return UpdateObject(state, { loading: true});
+            return UpdateObject(state, { car: action.result});
 
-        // case actionTypes.SETTING_POST:       
+        case actionTypes.VAN_GET_BY_PORT:       
 
-        //     return UpdateObject(state, { status: !(state.status)});
+            return UpdateObject(state, { car: action.result});
 
-        // case actionTypes.GET_CAR_BY_PORT:       
+        case actionTypes.VAN_DELETE:       
 
-        //     return UpdateObject(state, { car: action.result});
-
-        // case actionTypes.GET_TIMEDEFAULT_BY_PORT:       
-
-        //     return UpdateObject(state, { timedefault: action.result, loading: false});
+            return UpdateObject(state, { car: action.result});
 
         default:
             return state;

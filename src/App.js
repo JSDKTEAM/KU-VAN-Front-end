@@ -7,6 +7,7 @@ import Layout from './hoc/Layout/Layout';
 import StationBar from './containers/StationBar/StationBar';
 import Setting from './containers/Setting/Setting';
 import VanManage from './containers/VanManage/VanManage';
+import AdminComment from './containers/AdminComment/AdminComment';
 
 const theme = createMuiTheme({
   typography: {
@@ -44,6 +45,7 @@ class App extends Component {
               <Route exact path="/" component={StationBar} />
               <Route exact path="/setting" component={Setting} />
               <Route exact path="/vanManage" component={VanManage} />
+              <Route exact path="/admincomment" component={AdminComment} />
             </Switch>
 
           </Layout>

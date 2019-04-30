@@ -16,6 +16,9 @@ const styles = theme => ({
         minWidth: "80%",
         textAlign: "center",
     },
+    marginTop: {
+        marginTop: 20
+    },
 });
 
 
@@ -46,7 +49,7 @@ class transection extends Component {
 
         transection = (           
 
-            <Grid item container direction="row" spacing={40} className={classes.formControl}  alignItems="center" justify="center">
+            <Grid container direction="row" className={classes.formControl + " " + classes.marginTop} >
                 <Grid item sm={7} xs={6}>
                     <TextField
                     value={this.props.attr.time_out[this.props.indexsq] == null ? "" : this.props.attr.time_out[this.props.indexsq]}
@@ -77,7 +80,7 @@ class transection extends Component {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item sm={1} xs={12}>
+                <Grid item sm={1} xs={12} className={classes.marginTop}>
                     <Button 
                         variant="outlined" 
                         size="large" 
