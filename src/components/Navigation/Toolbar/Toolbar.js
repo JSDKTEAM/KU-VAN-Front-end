@@ -12,6 +12,7 @@ import Modal from '../../UI/Modal/Modal'
 import { GetSessionUser } from '../../../store/utility'
 import { NavLink } from 'react-router-dom';
 import NavigetionItem from '../NavigationItems/NavigationItem/NavigetionItem';
+import Drawers from '../../Drawers/Drawers';
 
 const styles = {
   root: {
@@ -49,10 +50,14 @@ function ButtonAppBar(props) {
   if(sessionuser != null)
   {
     let status = "none";
-
+    let drawer ='';
     if(sessionuser.type_user == "ADMIN")
     {
       status = "show";
+    }
+    else if(sessionuser.type_user == "CUSTOMER")
+    {
+      drawer = <Drawers />
     }
 
     return (
@@ -65,6 +70,9 @@ function ButtonAppBar(props) {
             <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" style={{display: status}} >
               <NavLink style={{color:"white"}} to="/vanManage" exact ><VanIcon/></NavLink>
             </IconButton>
+
+            { drawer }
+
             <NavLink className={classes.grow} style={{textDecoration:"none", color:"white"}} to="/" exact >
               <Typography variant="h6" color="inherit" className={classes.grow} noWrap>
                 KU-VAN
