@@ -5,6 +5,7 @@ export {
     cancleBook,
     initialBooked,
     refeshStation,
+    iscame,
 } from './stations';
 
 export {
@@ -26,4 +27,5 @@ export {
 
 export {
     commentByPort,
+    AddCommentByPort,
 }from './comment';

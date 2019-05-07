@@ -7,6 +7,7 @@ const initialState = {
     book: false,
     stations: 1,
     booked: [],
+    check: false,
     // checkLogin: false,
 }
 
@@ -20,6 +21,7 @@ const reducer = (state = initialState, action) => {
                 schedule: action.fetchedSchedule,
                 loading: false,
                 book: false,
+                check: false,
             })
         case actionTypes.FETCH_SCHEDULE_ERROR:
             return UpdateObject(state, {
@@ -62,6 +64,7 @@ const reducer = (state = initialState, action) => {
                 booked: action.initailbooked,
                 loading: false,
                 book: false,
+                check: false,
                 stations: action.port,
             })
         case actionTypes.INITIALBOOKED_START:
@@ -81,6 +84,16 @@ const reducer = (state = initialState, action) => {
                 book: true,
             });
         case actionTypes.CANCLEBOOK_ERROR:
+            return UpdateObject(state, { loading: false });
+        //ISCAME
+        case actionTypes.ISCAME_START:
+            return UpdateObject(state, { loading: true });
+        case actionTypes.ISCAME_SUCCESS:
+            return UpdateObject(state, { 
+                loading: false,
+                check: true,
+            });
+        case actionTypes.ISCAME_ERROR:
             return UpdateObject(state, { loading: false });
        
         default:

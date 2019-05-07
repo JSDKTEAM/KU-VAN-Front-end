@@ -12,7 +12,9 @@ import withErrorHandlar from '../../hoc/withErrorHandler/withErrorHandler';
 import Schedule from '../../components/Schedule/Schedule';
 import ProcessType from '../../components/UI/Progress/Progress';
 import { stat } from 'fs';
-import socketIOClient from 'socket.io-client'
+import socketIOClient from 'socket.io-client';
+
+
 
 import { GetSessionUser } from '../../store/utility';
 
@@ -49,16 +51,18 @@ class Stations extends Component {
 
     componentWillReceiveProps(nextProps) {
         let sessionUser = GetSessionUser();
-        if(nextProps.book==true && this.props.book == false){
+        if (nextProps.book == true && this.props.book == false) {
             this.props.onfetchSchedule(this.state.port_id);
             this.props.onInitialBook(this.state.port_id, sessionUser.token);
         }
-
-        
-        if(this.props.checkLogin == false && nextProps.checkLogin == true){
+        if (this.props.checkLogin == false && nextProps.checkLogin == true) {
             this.props.onInitialBook(this.state.port_id, sessionUser.token);
             this.props.onfetchSchedule(this.state.port_id);
             this.broadcastRes();
+        }
+        if (this.props.check == false && nextProps.check == true) {
+            this.props.onInitialBook(this.state.port_id, sessionUser.token);
+            this.props.onfetchSchedule(this.state.port_id);
         }
     }
     handleChange = (event, value) => {
@@ -77,7 +81,6 @@ class Stations extends Component {
             this.props.onUpdateTimeId(time);
         })
     }
-
     render() {
         SESSION_USER = GetSessionUser();
         let portName = "";
@@ -104,62 +107,74 @@ class Stations extends Component {
                 username: null,
             }
         }
+
         let scheduleItem = <ProcessType
             typeProcess='line' />;
-        if (!this.props.loading) {        
+        if (!this.props.loading) {
+            var time = new Date();
+            time = time.toLocaleString('en-US', {timeZone: "Asia/Bangkok"});
+            let dataTimeC = new Date(time); //time current
+            //console.log(this.props.schedule);
             scheduleItem = this.props.schedule.map(schedule => {
-                let bookedSchedule ={
+                let bookedSchedule = {//initial book
                     'time_id': null,
                     'reserve_id': null,
                     'destination': portName,
                 };
                 let sess = GetSessionUser();
-                if(this.props.booked == ''){
-                     console.log('empty');
-                }
-                else{
-                    
-                    this.props.booked.map((data,index) => {
-                        if (data.time_id == schedule.data.time_id && data.user_id == sess.user_id) {
+                let timeDB = new Date(schedule.data.date);
 
-                            return (bookedSchedule = {
-                                'time_id': data.time_id,
-                                'reserve_id': data.reserve_id,
-                                'destination': data.destination,
-                            });
-                        }
-                    });
-                }
-              
-                return <Schedule
-                    key={schedule.data.time_id}
-                    nameCustomer={SESSION_USER != null ? SESSION_USER.username : null}
-                    portName={portName}
-                    car_id={schedule.data.Car.car_id}
-                    license_plate={schedule.data.Car.license_plate}
-                    port_id={schedule.data.Car.port_id}
-                    province={schedule.data.Car.province}
-                    count_seat={schedule.data.count_seat}
-                    date={schedule.data.date}
-                    time_id={schedule.data.time_id}
-                    token={SESSION_USER != null ? SESSION_USER.token : null}
-                    time_out={schedule.data.time_out}
-                    number_of_seats={schedule.data.Car.number_of_seats}
+                let spliteTime = schedule.data.time_out.split(':'); // splite Timeout
+                timeDB.setHours(spliteTime[0],spliteTime[1],0);//Set Date & Time
+                if (timeDB >= dataTimeC) {//Check ( time now:time Database )
+                    if (this.props.booked == '') {
+                        console.log('empty');
+                    }
+                    else {
+                        this.props.booked.map((data, index) => {
+                            if (data.time_id == schedule.data.time_id && data.user_id == sess.user_id) {
+                                return (bookedSchedule = {
+                                    'time_id': data.time_id,
+                                    'reserve_id': data.reserve_id,
+                                    'destination': data.destination,
+                                    'nameWalkIn' : data.nameWalkIn,
+                                    'phoneNumberWalkIn' : data.phoneNumberWalkIn,
+                                });
+                            }
+                        });
+                    }
+                    return <Schedule
+                        key={schedule.data.time_id}
+                        nameCustomer={SESSION_USER != null ? SESSION_USER.username : null}
+                        portName={portName}
+                        car_id={schedule.data.Car.car_id}
+                        license_plate={schedule.data.Car.license_plate}
+                        port_id={schedule.data.Car.port_id}
+                        province={schedule.data.Car.province}
+                        count_seat={schedule.data.count_seat}
+                        date={schedule.data.date}
+                        time_id={schedule.data.time_id}
+                        token={SESSION_USER != null ? SESSION_USER.token : null}
+                        time_out={schedule.data.time_out}
+                        number_of_seats={schedule.data.Car.number_of_seats}
 
-                    checkLogin={this.props.checkLogin}
-                    checkBooked={bookedSchedule}
-                // ButtonBooked = {statusButtonBooked}
-                // cancleReserve = {cancleReserve}
-                // reserve_id = {reserve_id}
-                // destination = {destination}
-                />
+                        checkLogin={this.props.checkLogin}
+                        checkBooked={bookedSchedule}
+                        session={sess}
+                        dataBook={this.props.booked}
+                    />
+                }
+
+
+
+
             });
         }
 
         return (
             <div className={classes.root}>
                 <AppBar position="static" >
-                    <Tabs value={this.state.port_id-1} onChange={this.handleChange} indicatorColor="secondary" variant="fullWidth">
+                    <Tabs value={this.state.port_id - 1} onChange={this.handleChange} indicatorColor="secondary" variant="fullWidth">
                         <Tab label="บางเขน" />
                         <Tab label="หมอชิต" />
                         <Tab label="ปิ่นเกล้า" />
@@ -183,6 +198,7 @@ const mapStateToProps = (state) => ({
     booked: state.stations.booked,
     checkLogin: state.auth.loginStatus,
     station: state.stations.stations,
+    check: state.stations.check,
 })
 
 const mapDispatchProps = dispacth => ({
