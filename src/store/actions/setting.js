@@ -29,7 +29,7 @@ export const getTimeDefaultByPortSuccess = (result) => {
 };
 
 
-export const settingPost = (dataT, token) => {
+export const settingPost = (dataT, port, token) => {
     return dispatch => {
         let postData  = {
             "times": dataT,
@@ -42,7 +42,7 @@ export const settingPost = (dataT, token) => {
             }
         };
 
-        axios.delete('/times/date/' + dataT[0].date, axiosConfig)
+        axios.delete('/times/ports/'+ port + '/date/' + dataT[0].date, axiosConfig)
         .then(res => {
             axios.post('/times', postData, axiosConfig)
             .then(res => {
