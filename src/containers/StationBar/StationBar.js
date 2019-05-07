@@ -122,11 +122,23 @@ class Stations extends Component {
                     'destination': portName,
                 };
                 let sess = GetSessionUser();
+                let chechFontEnd = false;
+                if(sess!=null){
+                    if(sess.type_user == 'ADMIN'){
+                        chechFontEnd = true;
+                    }
+                }
                 let timeDB = new Date(schedule.data.date);
 
                 let spliteTime = schedule.data.time_out.split(':'); // splite Timeout
                 timeDB.setHours(spliteTime[0],spliteTime[1],0);//Set Date & Time
-                if (timeDB >= dataTimeC) {//Check ( time now:time Database )
+                let timeAdmin = new Date(timeDB);
+                //console.log(timeAdmin);
+                timeDB.setMinutes( timeDB.getMinutes() - 10 ); //Add time 15 minite Customer
+                let dateCurrent = dataTimeC.getDate();
+                let dateDB = timeDB.getDate();
+                //console.log(timeDB);
+                if ( (timeDB >= dataTimeC && dateCurrent == dateDB ) || (timeAdmin>=dataTimeC && chechFontEnd) ) {//Check ( time now:time Database )
                     if (this.props.booked == '') {
                         console.log('empty');
                     }

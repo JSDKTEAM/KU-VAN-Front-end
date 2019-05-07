@@ -224,7 +224,7 @@ class Schedule extends  Component {
                               nameOpenButton={checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? 'จอง':'ยกเลิกการจอง'}
                               nameContinueButton= {checkObject.time_id==null? "ยืนยัน":"ยกเลิกการจอง"}
                               nameCancleButton="ปิด"
-                              disabledBook = {!this.props.checkLogin}
+                              disabledBook = {!this.props.checkLogin||this.props.count_seat>15}
                               icon = {checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? 'ADD':'CANCLE'}
                               checkAdmin = {typeUser}
 
@@ -235,8 +235,6 @@ class Schedule extends  Component {
                               time_id = {this.props.time_id}
                               numberCar = {this.props.license_plate}
                               provinceCar = {this.props.province}
-
-                              
                             >
                               {dialogChildren}
                             </FormDialog>
