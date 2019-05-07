@@ -27,3 +27,27 @@ export const commentByPort = (port_id, token) => {
 
     }
 }
+
+
+export const AddCommentByPort = (port,reserve_id,comment,token) => {
+    return dispatch => {
+
+        let url = "/reserves/comment";
+        axios.post(url,{ 
+                "reserve_id" : reserve_id,
+                "comment" : comment
+             
+        },
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+        .then(res => {
+            // dispatch(AddCommentByPortSuccess(res.data));
+        })
+        .catch(error => {
+        });
+
+    }
+}

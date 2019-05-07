@@ -9,7 +9,6 @@ import { GetSessionUser } from '../../store/utility';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import EyeIcon from '@material-ui/icons/RemoveRedEye'
 import PersonIcon from '@material-ui/icons/Person';
 import ScheduleIcon from '@material-ui/icons/Schedule'
 
@@ -19,7 +18,6 @@ import ListItem from '@material-ui/core/ListItem';
 import Media from 'react-media';
 import Grid from '@material-ui/core/Grid';
 
-import Fab from '@material-ui/core/Fab';
 
 import FormDialog from '../UI/FormDialog/FormDialog';
 import TextField from '@material-ui/core/TextField';
@@ -55,7 +53,7 @@ const styles = theme => ({
   }
 });
 
-var dataBook = { "time_id": null, "destination": null, "token": null }; // will be state may be good better 
+var dataBook = { "time_id": null, "destination": null, "token": null,"nameWalkIn": null,"phoneNumberWalkIn": null }; // will be state may be good better 
 class Schedule extends  Component {
   state = {
     open: false,
@@ -73,6 +71,10 @@ class Schedule extends  Component {
   };
   handleContinue = (time_id,reserve_id) => {
     const SESSION_USER = GetSessionUser();
+    if(dataBook.destination == null)
+    {
+      dataBook.destination = this.props.portName;
+    }
     if(reserve_id == null){
       dataBook.time_id = time_id;
       dataBook.token = SESSION_USER.token;
@@ -86,10 +88,70 @@ class Schedule extends  Component {
   handleDestination = (value) => {
     dataBook.destination = value.target.value;
   }
+  handleName = (value) => {
+    dataBook.nameWalkIn = value.target.value;
+  }
+  handleMobile = (value) => {
+    dataBook.phoneNumberWalkIn = value.target.value;
+  }
 
   render() { 
     const { classes } = this.props;
     const checkObject = this.props.checkBooked;
+    
+    var admin;
+    if(this.props.checkLogin){
+      //console.log(this.props.session.type_user)
+      if(  this.props.session.type_user == 'ADMIN' ){
+        admin = <div>
+               <TextField
+                             autoFocus
+                             margin="dense"
+                             id="destination"
+                            //  label={checkObject.destination ==null? "ระบุปลายทางของท่าน":checkObject.destination}
+                              label={"ระบุปลายทางของท่าน"}
+                             fullWidth
+                             onKeyUp={(val) => { this.handleDestination(val); }}
+                             disabled = {checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? false:true}
+               />  
+               <TextField
+                             autoFocus
+                             margin="dense"
+                             id="name"
+                            //  label={checkObject.nameWalkIn ==null? "โปรดระบุชื่อ":checkObject.nameWalkIn}
+                            label={"โปรดระบุชื่อ"}
+                             fullWidth
+                             onKeyUp={(val) => { this.handleName(val); }}
+                             disabled = {checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? false:true}
+               />   
+               <TextField
+                             autoFocus
+                             margin="dense"
+                             id="phone"
+                            //  label={checkObject.phoneNumberWalkIn ==null? "โปรดระบุหมายเลขมือถือ":checkObject.phoneNumberWalkIn}
+                              label={"โปรดระบุหมายเลขมือถือ"}
+                             fullWidth
+                             onKeyUp={(val) => { this.handleMobile(val); }}
+                             disabled = {checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? false:true}
+               />   
+           </div>      
+     }
+     else{
+        admin =  <div>
+          <Typography> ชื่อผู้จอง : {this.props.nameCustomer}</Typography>
+          <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label={checkObject.destination ==null? "ระบุปลายทางของท่าน":checkObject.destination}
+              fullWidth
+              onKeyUp={(val) => { this.handleDestination(val); }}
+              disabled = {checkObject.time_id==null? false:true}
+            />
+          </div>
+     }
+    }
+    
     const dialogChildren = (
         <div>
             <Grid item xs container direction="column" spacing={16}>
@@ -100,22 +162,18 @@ class Schedule extends  Component {
                   <Typography>เวลารถออก : {this.props.time_out} น.</Typography> 
               </Grid>
               <Grid item xs>
-                  <Typography> ชื่อผู้จอง : {this.props.nameCustomer}</Typography>
+                  {admin}
               </Grid>
-            </Grid>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label={checkObject.destination ==null? "ระบุปลายทางของท่าน":checkObject.destination}
-              fullWidth
-              onKeyUp={(val) => { this.handleDestination(val); }}
-              disabled = {checkObject.time_id==null? false:true}
-            />
+            </Grid> 
         </div>
-
-    );
     
+    );
+    let typeUser = false;
+    if(this.props.session != null){
+      if(this.props.session.type_user == 'ADMIN'){
+        typeUser = true;
+      }
+    }
 
     return (
       <div className={classes.card}>
@@ -139,6 +197,9 @@ class Schedule extends  Component {
                           <Grid item xs>
                             <Typography gutterBottom variant="h6">
                               เวลารถออก : {this.props.time_out} น.
+                              
+                              {/* <Moment format="HH:mm" add={{ hours: 12 }}>{date}</Moment> */}
+               
                             </Typography>
                             <Typography gutterBottom variant="subtitle1">ป้ายทะเบียนรถ : {this.props.license_plate + ' ' + this.props.province}</Typography>
                           </Grid>
@@ -160,11 +221,22 @@ class Schedule extends  Component {
                               handleContinue={(time_id,reserve_id) => this.handleContinue(this.props.time_id,checkObject.reserve_id)}
                               open={this.state.open}
                               onClose={this.handleClose}
-                              nameOpenButton={checkObject.time_id==null? 'จอง':'ยกเลิกการจอง'}
+                              nameOpenButton={checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? 'จอง':'ยกเลิกการจอง'}
                               nameContinueButton= {checkObject.time_id==null? "ยืนยัน":"ยกเลิกการจอง"}
                               nameCancleButton="ปิด"
                               disabledBook = {!this.props.checkLogin}
-                              icon = {checkObject.time_id==null? 'ADD':'CANCLE'}
+                              icon = {checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? 'ADD':'CANCLE'}
+                              checkAdmin = {typeUser}
+
+                              dataBook = {this.props.booking}
+                              port_id = {this.props.port_id}
+                              time_out = {this.props.time_out}
+                              count = {this.props.count_seat}
+                              time_id = {this.props.time_id}
+                              numberCar = {this.props.license_plate}
+                              provinceCar = {this.props.province}
+
+                              
                             >
                               {dialogChildren}
                             </FormDialog>
@@ -216,10 +288,18 @@ class Schedule extends  Component {
                                 nameCancleButton="ปิด"
                                 disabledBook = {!this.props.checkLogin}
                                 icon = {checkObject.time_id==null? 'ADD':'CANCLE'}
+                                checkAdmin = {typeUser}
+
+                                dataBook = {this.props.booking}
+                                port_id = {this.props.port_id}
+                                time_out = {this.props.time_out}
+                                count = {this.props.count_seat}
+                                time_id = {this.props.time_id}
+                                numberCar = {this.props.license_plate}
+                                provinceCar = {this.props.province}
                               >
                               {dialogChildren}
                               </FormDialog>
-                              <Fab variant="contained" size="large" color="secondary" className={classes.margin}><EyeIcon /></Fab>
                             </Grid>
                           </Grid>
                         </Grid>

@@ -21,6 +21,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import DateIcon from '@material-ui/icons/DateRange';
 import VanIcon from '@material-ui/icons/AirportShuttle';
 import CommentIcon from '@material-ui/icons/Forum';
+import Book from '@material-ui/icons/Book';
 import { NavLink } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -126,7 +127,22 @@ class PersistentDrawerLeft extends React.Component {
     }
     else if(this.props.type == "CUSTOMER")
     {
-
+      drawer =            
+          <List>
+              <NavLink style={{color:"white"}} to="/" exact onClick={this.handleDrawerClose}>
+                <ListItem button key="จอง">
+                  <ListItemIcon><Book/></ListItemIcon>
+                  <ListItemText primary="จอง" />
+                </ListItem>
+              </NavLink>
+              <NavLink style={{color:"white"}} to="/customercomment" exact onClick={this.handleDrawerClose}>
+                <ListItem button key="แสดงความคิดเห็น">
+                  <ListItemIcon><CommentIcon/></ListItemIcon>
+                  <ListItemText primary="แสดงความคิดเห็น" />
+                </ListItem>
+              </NavLink>
+            
+          </List>
     }
 
     return (

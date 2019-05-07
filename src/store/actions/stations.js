@@ -124,7 +124,9 @@ export const book = (bookData) => {
         };
         var bodyParameters = {
             time_id: bookData.time_id,
-            destination: bookData.destination || null
+            destination: bookData.destination || null,
+            nameWalkIn: bookData.nameWalkIn,
+            phoneNumberWalkIn: bookData.phoneNumberWalkIn,
         }
         axios.post('/reserves/',
             bodyParameters,
@@ -176,5 +178,47 @@ export const cancleBook = (time_id,resever_id,token) => {
             .catch((error) => {
                 dispatch(cancleBookError(error));
             });
+    }
+}
+
+//ISCAME
+export const iscameStart = () => {
+    return {
+        type: actionTypes.ISCAME_START,
+    }
+}
+export const iscameSuccess = () => {
+    return {
+        type: actionTypes.ISCAME_SUCCESS,
+    }
+}
+export const iscameError = () => {
+    return {
+        type: actionTypes.ISCAME_ERROR,
+    }
+}
+export const iscame = (data,token) => {
+    return dispatch => {
+        // dispatch(iscameStart());
+        const AuthStr = `Bearer ${token}`;
+        data.map( (data) => {
+            let resever_id = data.reserve_id;
+            let status = data.status;
+            axios.put('/reserves/isCame',{
+                "reserve_id": resever_id,
+                "isCame" : status
+            },
+            {
+                headers: {
+                    'Authorization': AuthStr
+                } 
+            }
+            ).then(res => {
+                dispatch(iscameSuccess());
+            }).catch((error) => {
+                    dispatch(iscameError(error));
+            });
+        });
+        
     }
 }
