@@ -138,6 +138,7 @@ class Setting extends Component {
 
     saveTime = () => {
         let attrTime = [];
+        let regex1 = RegExp('([0-2][0-9]):([0-5][0-9])');
 
         if(attr.car_id.length != attr.time_out.length)
         {
@@ -153,15 +154,19 @@ class Setting extends Component {
                 return;
             }
 
+            if(!regex1.test(attr.time_out[i]))
+            {
+                swal("Request data", "Wrong Format.", "error");
+                return;
+            }
+
             attrTime.push({
                 car_id: attr.car_id[i],
                 time_out: attr.time_out[i],
                 date: dateSelect + " 00:00:00"});
         }
 
-        console.log(attrTime);
-
-        this.props.onPostSetting(attrTime);
+        this.props.onPostSetting(attrTime, port);
     };
 
     render() {
@@ -269,7 +274,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchProps = dispacth => ({
-    onPostSetting: (attrTime) => dispacth(actionsTypes.settingPost(attrTime,sessionUser.token)),
+    onPostSetting: (attrTime, port) => dispacth(actionsTypes.settingPost(attrTime, port, sessionUser.token)),
     getCarByPort: (port) => dispacth(actionsTypes.getCarByPort(port,sessionUser.token)),
     getTimeDefaultByPort: (loginfield) => dispacth(actionsTypes.getTimeDefaultByPort(loginfield,sessionUser.token)),
 })
