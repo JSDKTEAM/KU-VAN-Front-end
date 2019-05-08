@@ -140,7 +140,7 @@ class Stations extends Component {
                 //console.log(timeDB);
                 if ( (timeDB >= dataTimeC && dateCurrent == dateDB ) || (timeAdmin>=dataTimeC && chechFontEnd) ) {//Check ( time now:time Database )
                     if (this.props.booked == '') {
-                        console.log('empty');
+                        //console.log('empty');
                     }
                     else {
                         this.props.booked.map((data, index) => {

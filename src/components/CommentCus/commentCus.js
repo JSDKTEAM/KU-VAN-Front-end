@@ -8,7 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import Done from '@material-ui/icons/Done';
+import Done from '@material-ui/icons/AddComment';
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({

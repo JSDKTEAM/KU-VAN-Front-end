@@ -109,7 +109,6 @@ class AdminComment extends Component {
                         {
                             this.props.reserve.map((data, index) => {
                                 if(data.user_id == sessionUser.user_id){
-                                    console.log(data);
                                     return <CommentCus 
                                         indexsq={index}
                                         comByPort={this.props.reserve}
