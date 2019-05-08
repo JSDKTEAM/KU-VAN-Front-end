@@ -53,10 +53,11 @@ const styles = theme => ({
   }
 });
 
-var dataBook = { "time_id": null, "destination": null, "token": null,"nameWalkIn": null,"phoneNumberWalkIn": null }; // will be state may be good better 
+var dataBook = { "time_id": null, "destination": null, "token": null,"nameWalkIn": '',"phoneNumberWalkIn": '' }; // will be state may be good better 
 class Schedule extends  Component {
   state = {
     open: false,
+    walkInValidate : true,
   };
   componentDidMount() {
     // let station = this.props.station;
@@ -75,7 +76,7 @@ class Schedule extends  Component {
     {
       dataBook.destination = this.props.portName;
     }
-    if(reserve_id == null){
+    if(reserve_id == null || SESSION_USER.type_user == 'ADMIN'){
       dataBook.time_id = time_id;
       dataBook.token = SESSION_USER.token;
       this.props.dataBookSchedule(dataBook);
@@ -90,9 +91,23 @@ class Schedule extends  Component {
   }
   handleName = (value) => {
     dataBook.nameWalkIn = value.target.value;
+    
+    if(value.target.value == '' ){
+      this.setState({walkInValidate: true});
+    }
+    else if(dataBook.nameWalkIn != '' && dataBook.phoneNumberWalkIn != ''){
+      this.setState({walkInValidate: false});
+    }
   }
   handleMobile = (value) => {
     dataBook.phoneNumberWalkIn = value.target.value;
+    
+    if(value.target.value == '' ){
+      this.setState({walkInValidate: true});
+    }
+    else if(dataBook.nameWalkIn != '' && dataBook.phoneNumberWalkIn != ''){
+      this.setState({walkInValidate: false});
+    }
   }
 
   render() { 
@@ -123,6 +138,7 @@ class Schedule extends  Component {
                              fullWidth
                              onKeyUp={(val) => { this.handleName(val); }}
                              disabled = {checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? false:true}
+                             required={true}
                />   
                <TextField
                              autoFocus
@@ -133,6 +149,7 @@ class Schedule extends  Component {
                              fullWidth
                              onKeyUp={(val) => { this.handleMobile(val); }}
                              disabled = {checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? false:true}
+                             required={true}
                />   
            </div>      
      }
@@ -197,9 +214,6 @@ class Schedule extends  Component {
                           <Grid item xs>
                             <Typography gutterBottom variant="h6">
                               เวลารถออก : {this.props.time_out} น.
-                              
-                              {/* <Moment format="HH:mm" add={{ hours: 12 }}>{date}</Moment> */}
-               
                             </Typography>
                             <Typography gutterBottom variant="subtitle1">ป้ายทะเบียนรถ : {this.props.license_plate + ' ' + this.props.province}</Typography>
                           </Grid>
@@ -214,15 +228,14 @@ class Schedule extends  Component {
                             <Typography variant="subtitle1">{this.props.count_seat} / {this.props.number_of_seats} คน</Typography>
                           </Grid>
                           <Grid item >
-                            
                             <FormDialog
                               handleClickOpen={this.handleClickOpen}
                               handleClose={this.handleClose}
                               handleContinue={(time_id,reserve_id) => this.handleContinue(this.props.time_id,checkObject.reserve_id)}
                               open={this.state.open}
                               onClose={this.handleClose}
-                              nameOpenButton={checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? 'จอง':'ยกเลิกการจอง'}
-                              nameContinueButton= {checkObject.time_id==null? "ยืนยัน":"ยกเลิกการจอง"}
+                              nameOpenButton={checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? 'จอง':'ยกเลิกจอง'}
+                              nameContinueButton= {checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? "ยืนยัน":"ยกเลิกจอง"}
                               nameCancleButton="ปิด"
                               disabledBook = {!this.props.checkLogin||this.props.count_seat>15}
                               icon = {checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? 'ADD':'CANCLE'}
@@ -235,6 +248,7 @@ class Schedule extends  Component {
                               time_id = {this.props.time_id}
                               numberCar = {this.props.license_plate}
                               provinceCar = {this.props.province}
+                              walkInValidate = {this.state.walkInValidate }
                             >
                               {dialogChildren}
                             </FormDialog>
@@ -281,11 +295,11 @@ class Schedule extends  Component {
                                 handleContinue={(time_id,reserve_id) => this.handleContinue(checkObject.time_id,checkObject.reserve_id)}
                                 open={this.state.open}
                                 onClose={this.handleClose}
-                                nameOpenButton={checkObject.time_id==null? 'จอง':'ยกเลิกการจอง'}
+                                nameOpenButton={checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? 'จอง':'ยกเลิกการจอง'}
                                 nameContinueButton= {checkObject.time_id==null? "ยืนยัน":"ยกเลิกการจอง"}
                                 nameCancleButton="ปิด"
-                                disabledBook = {!this.props.checkLogin}
-                                icon = {checkObject.time_id==null? 'ADD':'CANCLE'}
+                                disabledBook = {!this.props.checkLogin||this.props.count_seat>15}
+                                icon = {checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? 'ADD':'CANCLE'}
                                 checkAdmin = {typeUser}
 
                                 dataBook = {this.props.booking}
@@ -295,6 +309,7 @@ class Schedule extends  Component {
                                 time_id = {this.props.time_id}
                                 numberCar = {this.props.license_plate}
                                 provinceCar = {this.props.province}
+                                walkInValidate = {this.state.walkInValidate  }
                               >
                               {dialogChildren}
                               </FormDialog>

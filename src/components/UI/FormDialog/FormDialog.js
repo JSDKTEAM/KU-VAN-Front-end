@@ -47,6 +47,7 @@ class FormDialog extends React.Component {
         icon = <AddIcon />
         break;
     }
+    let continueBook = false;
     if (this.props.checkAdmin == true) {
       fab = <VarifyBook
               dataBook = {this.props.dataBook}
@@ -58,12 +59,13 @@ class FormDialog extends React.Component {
               provinceCar = {this.props.provinceCar}
 
             />
-      
-       
+      if(this.props.walkInValidate == true){
+        continueBook = true;
+      }
     }
     return (
       <div>
-        <Grid item xs container direction="column" justify="center" alignItems="center">
+        <Grid item xs container direction="row" justify="center" alignItems="center">
           <Grid item>
             <Fab
               variant="extended"
@@ -71,10 +73,11 @@ class FormDialog extends React.Component {
               style={{ width: "140px", display: this.props.status == null ? true : this.props.status }}
               className={classes.margin}
               onClick={this.props.handleClickOpen}
-              disabled={this.props.disabledBook || false} >
+              disabled={this.props.disabledBook || this.props.count >= 15 || false} >
               {icon}
               {this.props.nameOpenButton}
             </Fab>
+           
           </Grid>
           <Grid item>
             {fab}
@@ -94,11 +97,15 @@ class FormDialog extends React.Component {
 
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.handleClose} color="primary" style={{ display: this.props.status == null ? true : this.props.status }}>
+            <Button onClick={this.props.handleClose} color="primary" 
+              style={{ display: this.props.status == null ? true : this.props.status }}>
               {this.props.nameCancleButton}
             </Button>
-            <Button onClick={this.props.handleContinue} color="primary" style={{ display: this.props.status == null ? true : this.props.status }}>
+            <Button onClick={this.props.handleContinue} color="primary" 
+              style={{ display: this.props.status == null ? true : this.props.status }}
+              disabled={continueBook}>
               {this.props.nameContinueButton}
+               
             </Button>
           </DialogActions>
         </Dialog>
