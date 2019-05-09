@@ -67,22 +67,6 @@ class HistoryReserve extends Component {
                     disableUnderline={true}
                     /> 
                 </Grid>
-                {/* <Grid item sm={12} xs={12}>
-                    <TextField className={classes.font}
-                    value={this.props.phone}
-                    id="standard-name"
-                    label="เบอร์โทรศัพท์ผู้ขับรถ"
-                    margin="normal"
-                    className={classes.formControl}
-                    InputProps={{
-                        classes: {
-                          input: classes.resize,
-                        },
-                      }}
-                   
-                    disableUnderline={true}
-                    />
-                </Grid> */}
                 <Grid item sm={12} xs={12}>
                     <TextField className={classes.font}
                     value={this.props.port}

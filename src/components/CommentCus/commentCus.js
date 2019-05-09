@@ -39,7 +39,10 @@ class commenttran extends Component {
     render(){
         const { classes } = this.props;
         let commenttran;
-
+        let ButtonComment = false;
+        if(this.props.comByPort[this.props.indexsq].comment == ''){
+            ButtonComment = true;
+        }
         commenttran = (           
 
             <Grid item container direction="row" spacing={16} className={classes.formControl}  alignItems="center" justify="center">
@@ -52,9 +55,6 @@ class commenttran extends Component {
                     className={classes.formControl}
                     disableUnderline={true}
                     />
-                     
-                   
-                    
                 </Grid>
                 <Grid item sm={6} xs={6}>
                     <TextField
@@ -69,6 +69,7 @@ class commenttran extends Component {
                 </Grid>
                 <Grid item sm={2} xs={2}>
                     <Done 
+                        disabled ={ButtonComment}
                         onClick = {(text,id) => this.props.comment(this.state.text,this.props.reserve_id)}
                     />
                 </Grid>

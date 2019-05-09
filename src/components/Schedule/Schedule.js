@@ -161,7 +161,7 @@ class Schedule extends  Component {
               autoFocus
               margin="dense"
               id="name"
-              label={"ระบุปลายทางของท่าน"}
+              label={checkObject.destination ==null||checkObject.time_id==null? "ระบุปลายทางของท่าน":checkObject.destination}
               fullWidth
               onKeyUp={(val) => { this.handleDestination(val); }}
               disabled = {checkObject.time_id==null? false:true}
