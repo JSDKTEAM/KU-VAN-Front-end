@@ -75,6 +75,7 @@ class Schedule extends  Component {
     if(dataBook.destination == null)
     {
       dataBook.destination = this.props.portName;
+      //console.log(this.props.portName);
     }
     if(reserve_id == null || SESSION_USER.type_user == 'ADMIN'){
       dataBook.time_id = time_id;
@@ -160,7 +161,7 @@ class Schedule extends  Component {
               autoFocus
               margin="dense"
               id="name"
-              label={"ระบุปลายทางของท่าน"}
+              label={checkObject.destination ==null||checkObject.time_id==null? "ระบุปลายทางของท่าน":checkObject.destination}
               fullWidth
               onKeyUp={(val) => { this.handleDestination(val); }}
               disabled = {checkObject.time_id==null? false:true}
@@ -292,11 +293,11 @@ class Schedule extends  Component {
                               <FormDialog
                                 handleClickOpen={this.handleClickOpen}
                                 handleClose={this.handleClose}
-                                handleContinue={(time_id,reserve_id) => this.handleContinue(checkObject.time_id,checkObject.reserve_id)}
+                                handleContinue={(time_id,reserve_id) => this.handleContinue(this.props.time_id,checkObject.reserve_id)}
                                 open={this.state.open}
                                 onClose={this.handleClose}
                                 nameOpenButton={checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? 'จอง':'ยกเลิกการจอง'}
-                                nameContinueButton= {checkObject.time_id==null? "ยืนยัน":"ยกเลิกการจอง"}
+                                nameContinueButton= {checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? "ยืนยัน":"ยกเลิกจอง"}
                                 nameCancleButton="ปิด"
                                 disabledBook = {!this.props.checkLogin||this.props.count_seat>15}
                                 icon = {checkObject.time_id==null||this.props.session.type_user == 'ADMIN'? 'ADD':'CANCLE'}

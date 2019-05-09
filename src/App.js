@@ -9,6 +9,7 @@ import Setting from './containers/Setting/Setting';
 import VanManage from './containers/VanManage/VanManage';
 import AdminComment from './containers/AdminComment/AdminComment';
 import CustomerComment from './containers/CustomerComment/CustomerComment';
+import HistoryReserve from './containers/HistoryReserve/HistoryReserve';
 
 const theme = createMuiTheme({
   typography: {
@@ -48,6 +49,7 @@ class App extends Component {
               <Route exact path="/vanManage" component={VanManage} />
               <Route exact path="/admincomment" component={AdminComment} />
               <Route exact path="/customercomment" component={CustomerComment} />
+              <Route exact path="/historyReserve" component={HistoryReserve} />
             </Switch>
 
           </Layout>

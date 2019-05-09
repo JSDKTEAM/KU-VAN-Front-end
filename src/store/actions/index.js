@@ -29,3 +29,7 @@ export {
     commentByPort,
     AddCommentByPort,
 }from './comment';
+
+export {
+    getHistory,
+}from './historyReserve';
