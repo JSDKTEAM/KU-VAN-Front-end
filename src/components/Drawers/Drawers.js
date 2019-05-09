@@ -21,6 +21,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import DateIcon from '@material-ui/icons/DateRange';
 import VanIcon from '@material-ui/icons/AirportShuttle';
 import CommentIcon from '@material-ui/icons/Forum';
+
+import HistoryIcon from '@material-ui/icons/History';
 import Book from '@material-ui/icons/Book';
 import { NavLink } from 'react-router-dom';
 
@@ -139,6 +141,12 @@ class PersistentDrawerLeft extends React.Component {
                 <ListItem button key="แสดงความคิดเห็น">
                   <ListItemIcon><CommentIcon/></ListItemIcon>
                   <ListItemText primary="แสดงความคิดเห็น" />
+                </ListItem>
+              </NavLink>
+              <NavLink style={{color:"white"}} to="/historyReserve" exact onClick={this.handleDrawerClose}>
+                <ListItem button key="ดูประวัติการเดินทาง">
+                  <ListItemIcon><HistoryIcon/></ListItemIcon>
+                  <ListItemText primary="ดูประวัติการเดินทาง" />
                 </ListItem>
               </NavLink>
             

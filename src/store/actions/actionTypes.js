@@ -35,3 +35,5 @@ export const CANCLEBOOK_ERROR = 'CANCLEBOOK_ERROR';
 export const ISCAME_START = 'ISCAME_START';
 export const ISCAME_SUCCESS = 'ISCAME_SUCCESS';
 export const ISCAME_ERROR = 'ISCAME_ERROR';
+
+export const GET_HISTORY = 'GET_HISTORY';
