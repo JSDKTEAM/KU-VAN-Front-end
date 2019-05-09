@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import { UpdateObject } from '../utility';
+import swal from 'sweetalert';
 
 const initialState = {
     loginStatus: false
@@ -26,7 +27,10 @@ const reducer = (state = initialState, action) => {
             return UpdateObject(state, { loginStatus: false });
 
         case actionTypes.AUTH_REGISTER:
-            window.location.href = window.location.origin;
+
+            swal("ลงทะเบียนสำเร็จ", "คุณสามารถเข้าสู่ระบบได้ทันที", "success").then((value) => {
+                window.location.href = window.location.origin;
+              });
             return state;
 
         default:

@@ -41,9 +41,13 @@ export const settingPost = (dataT, port, token) => {
                 'Content-Type': 'application/json'
             }
         };
+        console.log(port);
+        console.log(token);
+        console.log(dataT[0].date);
 
         axios.delete('/times/ports/'+ port + '/date/' + dataT[0].date, axiosConfig)
         .then(res => {
+            // console.log(res);
             axios.post('/times', postData, axiosConfig)
             .then(res => {
                 dispatch(settingPostSuccess());
@@ -52,6 +56,7 @@ export const settingPost = (dataT, port, token) => {
             .catch(error => {
                 console.log(error);
             });
+            console.log("testt");
         })
         .catch(error => {
             console.log(error);

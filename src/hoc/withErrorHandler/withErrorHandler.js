@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Modal from '../../components/UI/Modal/Modal';
 import Aux from '../AuxHoc/Aux';
+import swal from 'sweetalert';
 
 const withErrorHandler = (WrappedComponent, axios) => {
 	return class extends Component {
@@ -19,9 +20,11 @@ const withErrorHandler = (WrappedComponent, axios) => {
 			this.resInterceptor = axios.interceptors.response.use(
 				res => res,
 				error => {
-					this.setState({
-						error: error
-					});
+					// this.setState({
+					// 	error: error
+					// });
+					console.log(error.response);
+					swal(error.response.data.message, "", "error");
 				}
 			);
 		}

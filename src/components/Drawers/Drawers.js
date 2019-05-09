@@ -105,22 +105,28 @@ class PersistentDrawerLeft extends React.Component {
     {
       drawer =            
             <List>
+              <NavLink style={{color:"white"}} to="/" exact onClick={this.handleDrawerClose}>
+                <ListItem button key="จอง">
+                  <ListItemIcon><Book/></ListItemIcon>
+                  <ListItemText primary="จอง" />
+                </ListItem>
+              </NavLink>
               <NavLink style={{color:"white"}} to="/setting" exact onClick={this.handleDrawerClose}>
-                <ListItem button key="Schedule">
+                <ListItem button key="ตารางเดินรถ">
                   <ListItemIcon><DateIcon/></ListItemIcon>
-                  <ListItemText primary="Schedule" />
+                  <ListItemText primary="ตารางเดินรถ" />
                 </ListItem>
               </NavLink>
               <NavLink style={{color:"white"}} to="/vanManage" exact onClick={this.handleDrawerClose}>
-                <ListItem button key="Van">
+                <ListItem button key="จัดการรถตู้">
                   <ListItemIcon><VanIcon/></ListItemIcon>
-                  <ListItemText primary="Van" />
+                  <ListItemText primary="จัดการรถตู้" />
                 </ListItem>
               </NavLink>
               <NavLink style={{color:"white"}} to="/admincomment" exact onClick={this.handleDrawerClose}>
-                <ListItem button key="Comment">
+                <ListItem button key="แสดงความคิดเห็น">
                   <ListItemIcon><CommentIcon/></ListItemIcon>
-                  <ListItemText primary="Comment" />
+                  <ListItemText primary="แสดงความคิดเห็น" />
                 </ListItem>
               </NavLink>
             </List>

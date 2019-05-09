@@ -50,8 +50,8 @@ export const authRegister = (fielddata) => {
             password : fielddata.password,
             phoneNumber: fielddata.phone,
         })
-        .then(res => {
-            dispatch(authRegisterSuccess())
+        .then(res => { 
+            dispatch(authRegisterSuccess());
         })
         .catch(error => {
 

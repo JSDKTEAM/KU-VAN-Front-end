@@ -40,7 +40,7 @@ const styles = theme => ({
     },
     centerT:{
         textAlign: "center",
-    }
+    },
 });
 
 let sessionUser = GetSessionUser();
@@ -94,6 +94,7 @@ class Setting extends Component {
     selectChange = (value) => {
         attr.car_id = [];
         port = value.target.value;
+        this.getTimeTo();
         this.props.getCarByPort(port);
     };
 

@@ -254,7 +254,7 @@ class Layout extends Component {
             size="large"
             color="primary"
             className={classes.textField + " " + classes.dense}
-            onClick={(val) => { this.registerCheck(val); this.handleCloseR(); }}>>      
+            onClick={(val) => { this.registerCheck(val); this.handleCloseR(); }}>    
             ลงทะเบียน</Button>
           <Button
             variant="outlined"
