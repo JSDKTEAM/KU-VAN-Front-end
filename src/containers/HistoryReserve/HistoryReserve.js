@@ -134,7 +134,7 @@ class HistoryReserve extends Component {
                 <ListItem button>
                     <Grid item xs container direction="row" justify="flex-start" alignItems="center" >
                         <Grid item >
-                                <Typography color="inherit" >โปรดเลือกวันที่ต้องการค้นหา</Typography>
+                                <Typography color="inherit" >เลือกวันที่ต้องการค้นหา</Typography>
                         </Grid>     
                         <Grid item >
                               

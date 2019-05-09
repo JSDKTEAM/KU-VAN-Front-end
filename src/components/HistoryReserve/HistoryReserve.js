@@ -28,7 +28,10 @@ const styles = theme => ({
       },
       font:{
         fontSize: "20rem"
-      }
+      },
+      resize:{
+        fontSize:"1vm"
+      },
 });
 
 
@@ -49,45 +52,65 @@ class HistoryReserve extends Component {
         commenttran = (           
 
             <Grid item container direction="row" spacing={16} className={classes.formControl}  alignItems="center" justify="center">
-                <Grid item sm={6} xs={6}>
+                <Grid item sm={12} xs={12}>
                     <TextField className={classes.font}
                     value={this.props.license_plate + this.props.province}
                     id="standard-name"
                     label="ทะเบียนรถ"
+                    InputProps={{
+                        classes: {
+                          input: classes.resize,
+                        },
+                      }}
                     margin="normal"
                     className={classes.formControl}
                     disableUnderline={true}
                     /> 
                 </Grid>
-                <Grid item sm={6} xs={6}>
+                {/* <Grid item sm={12} xs={12}>
                     <TextField className={classes.font}
                     value={this.props.phone}
                     id="standard-name"
                     label="เบอร์โทรศัพท์ผู้ขับรถ"
                     margin="normal"
                     className={classes.formControl}
+                    InputProps={{
+                        classes: {
+                          input: classes.resize,
+                        },
+                      }}
                    
                     disableUnderline={true}
                     />
-                </Grid>
-                <Grid item sm={6} xs={6}>
+                </Grid> */}
+                <Grid item sm={12} xs={12}>
                     <TextField className={classes.font}
                     value={this.props.port}
                     id="standard-name"
                     label="สายรถตู้"
                     margin="normal"
                     className={classes.formControl}
+                    InputProps={{
+                        classes: {
+                          input: classes.resize,
+                        },
+                      }}
                    
                     disableUnderline={true}
                     />
                 </Grid>
-                <Grid item sm={6} xs={6}>
+                <Grid item sm={12} xs={12}>
                     <TextField className={classes.font}
                     value={this.props.timeOut}
                     id="standard-name"
                     label="เวลารถออก"
                     margin="normal"
                     className={classes.formControl}
+                    InputProps={{
+                        classes: {
+                          input: classes.resize,
+                        },
+                      }}
                    
                     disableUnderline={true}
                     />

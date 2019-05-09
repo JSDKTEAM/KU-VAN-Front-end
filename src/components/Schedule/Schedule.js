@@ -75,6 +75,7 @@ class Schedule extends  Component {
     if(dataBook.destination == null)
     {
       dataBook.destination = this.props.portName;
+      //console.log(this.props.portName);
     }
     if(reserve_id == null || SESSION_USER.type_user == 'ADMIN'){
       dataBook.time_id = time_id;
