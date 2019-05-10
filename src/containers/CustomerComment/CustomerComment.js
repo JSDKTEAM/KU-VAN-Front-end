@@ -109,12 +109,19 @@ class AdminComment extends Component {
                         {
                             this.props.reserve.map((data, index) => {
                                 if(data.user_id == sessionUser.user_id){
-                                    return <CommentCus 
+                                    if(this.props.reserve[index].Time != null)
+                                    {
+                                        return <CommentCus 
                                         indexsq={index}
                                         comByPort={this.props.reserve}
-                                        reserve_id = {data.reserve_id}
-                                        comment={(text) => this.HandleComment(text,data.reserve_id)}
-                                    />;
+                                        />;
+                                    }
+                                    // return <CommentCus 
+                                    //     indexsq={index}
+                                    //     comByPort={this.props.reserve}
+                                    //     reserve_id = {data.reserve_id}
+                                    //     comment={(text) => this.HandleComment(text,data.reserve_id)}
+                                    // />;
                                 }   
                             })
                         }

@@ -115,10 +115,15 @@ class AdminComment extends Component {
                     <Grid item xs={12}>
                         {
                             this.props.reserve.map((name, index) => {
-                                return <CommentTran 
-                                indexsq={index}
-                                comByPort={this.props.reserve}
-                                />;
+                                console.log(this.props.reserve);
+                                //this.props.comByPort[this.props.indexsq].Time.Car.license_plate
+                                if(this.props.reserve[index].Time != null)
+                                {
+                                    return <CommentTran 
+                                    indexsq={index}
+                                    comByPort={this.props.reserve}
+                                    />;
+                                }
                             })
                         }
                     </Grid>

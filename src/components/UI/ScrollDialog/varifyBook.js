@@ -39,6 +39,9 @@ const styles = {
   flex: {
     flex: 1,
   },
+  font_size: {
+    fontSize: "4vw"
+  },
 };
 
 function Transition(props) {
@@ -135,7 +138,7 @@ class varifyBook extends React.Component {
           borderLeftColor: "#09a76a",
           marginLeft: 0,
           marginRight: 0,
-          fontSize: '1rem',
+          fontSize: "4vw",
           marginTop: '5px',
           marginBottom: '5px',
         }} >

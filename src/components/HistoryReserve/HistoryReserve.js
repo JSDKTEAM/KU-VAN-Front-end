@@ -54,7 +54,7 @@ class HistoryReserve extends Component {
             <Grid item container direction="row" spacing={16} className={classes.formControl}  alignItems="center" justify="center">
                 <Grid item sm={12} xs={12}>
                     <TextField className={classes.font}
-                    value={this.props.license_plate + this.props.province}
+                    value={this.props.license_plate +' '+ this.props.province}
                     id="standard-name"
                     label="ทะเบียนรถ"
                     InputProps={{
