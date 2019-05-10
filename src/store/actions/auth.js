@@ -15,19 +15,47 @@ export const authPostFail = (error) => {
     }
 };
 
-export const authPostCheck = (fieldLogin) => {
+export const authRegisterSuccess = () => {
+    return {
+        type: actionTypes.AUTH_REGISTER,
+    }
+};
+
+export const authPostCheck = (res) => {
     return dispatch => {
-        axios.post('/auth/login', 
+        // axios.post('/auth/login', 
+        // {            
+        //     username : fieldLogin.username,
+        //     password : fieldLogin.password       
+        // })
+        // .then(res => {
+        //     dispatch(authPostPass(res.data))
+        // })
+        // .catch(error => {
+        //     console.log(error);
+        //     dispatch(authPostFail(error));
+        // });
+        dispatch(authPostPass(res));
+
+    }
+}
+
+export const authRegister = (fielddata) => {
+    return dispatch => {
+        axios.post('/users/registers', 
         {            
-            username : fieldLogin.username,
-            password : fieldLogin.password       
+            username : fielddata.username,
+            fname : fielddata.firstname,
+            lname : fielddata.lastname,
+            password : fielddata.password,
+            phoneNumber: fielddata.phone,
         })
-        .then(res => {
-            dispatch(authPostPass(res.data))
+        .then(res => { 
+            dispatch(authRegisterSuccess());
         })
         .catch(error => {
-            console.log(error);
-            dispatch(authPostFail(error));
+
         });
+
     }
 }

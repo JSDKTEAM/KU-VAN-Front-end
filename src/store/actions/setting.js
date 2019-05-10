@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-home';
+import swal from 'sweetalert';
 
 export const startWaitSetting = () => {
     return {
@@ -28,16 +29,34 @@ export const getTimeDefaultByPortSuccess = (result) => {
 };
 
 
-export const settingPost = (data) => {
+export const settingPost = (dataT, port, token) => {
     return dispatch => {
-        console.log("est");
-        console.log(data);
-        axios.post('/times', 
-        {            
-            times : data,    
-        })
+        let postData  = {
+            "times": dataT,
+        }
+
+        let axiosConfig = {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        };
+        console.log(port);
+        console.log(token);
+        console.log(dataT[0].date);
+
+        axios.delete('/times/ports/'+ port + '/date/' + dataT[0].date, axiosConfig)
         .then(res => {
-            dispatch(settingPostSuccess());
+            // console.log(res);
+            axios.post('/times', postData, axiosConfig)
+            .then(res => {
+                dispatch(settingPostSuccess());
+                swal("Good job!", "You clicked the button!", "success");
+            })
+            .catch(error => {
+                console.log(error);
+            });
+            console.log("testt");
         })
         .catch(error => {
             console.log(error);
@@ -45,11 +64,15 @@ export const settingPost = (data) => {
     }
 }
 
-export const getCarByPort = (port_id) => {
+export const getCarByPort = (port_id, token) => {
     return dispatch => {
         let url = "/cars/ports/" + port_id;
 
-        axios.get(url)
+        axios.get(url,{
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
         .then(res => {
             dispatch(getCarByPortSuccess(res.data));
         })
@@ -58,7 +81,8 @@ export const getCarByPort = (port_id) => {
     }
 }
 
-export const getTimeDefaultByPort = (port_id) => {
+//NOT USE
+export const getTimeDefaultByPort = (port_id, token) => {
     return dispatch => {
         let url = "/timesDefault/ports/" + port_id;
 

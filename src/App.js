@@ -6,6 +6,10 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Layout from './hoc/Layout/Layout';
 import StationBar from './containers/StationBar/StationBar';
 import Setting from './containers/Setting/Setting';
+import VanManage from './containers/VanManage/VanManage';
+import AdminComment from './containers/AdminComment/AdminComment';
+import CustomerComment from './containers/CustomerComment/CustomerComment';
+import HistoryReserve from './containers/HistoryReserve/HistoryReserve';
 
 const theme = createMuiTheme({
   typography: {
@@ -42,6 +46,10 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={StationBar} />
               <Route exact path="/setting" component={Setting} />
+              <Route exact path="/vanManage" component={VanManage} />
+              <Route exact path="/admincomment" component={AdminComment} />
+              <Route exact path="/customercomment" component={CustomerComment} />
+              <Route exact path="/historyReserve" component={HistoryReserve} />
             </Switch>
 
           </Layout>

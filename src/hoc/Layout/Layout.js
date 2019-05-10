@@ -17,6 +17,7 @@ import { GetSessionUser } from '../../store/utility';
 
 
 const loginfield = { username: null, password: null };
+const registerfield = {username: null, firstname: null, lastname: null, password: null, comfirmpassword: null, phone: null};
 
 const styles = theme => ({
   container: {
@@ -56,10 +57,61 @@ class Layout extends Component {
     loginfield.password = value.target.value;
   };
 
-  checkAuth = () => {
-    this.props.authPostCheck(loginfield);
-    window.location.href = window.location.origin;
+  usernameRegister = (value) => {
+    registerfield.username = value.target.value;
   };
+
+  firstnameRegister = (value) => {
+    registerfield.firstname = value.target.value;
+  };
+
+  lastnameRegister = (value) => {
+    registerfield.lastname = value.target.value;
+  };
+
+  passwordRegister = (value) => {
+    console.log(value.target.value);
+    registerfield.password = value.target.value;
+  };
+
+  comfirmpasswordRegister = (value) => {
+    registerfield.comfirmpassword = value.target.value;
+  };
+
+  phoneRegister = (value) => {
+    registerfield.phone = value.target.value;
+  };
+
+  checkAuth = async () => {
+
+    let res = await axios.post('/auth/login', {
+      username : loginfield.username,
+      password : loginfield.password     
+    });
+
+    if(res != null)
+    {
+      this.props.authPostCheck(res.data);
+    }
+
+  };
+
+  registerCheck = async () => {
+
+    // let res = await axios.post('/auth/login', {
+    //   username : loginfield.username,
+    //   password : loginfield.password     
+    // });
+
+    // if(res != null)
+    // {
+    //   this.props.authPostCheck(res.data);
+    // }
+
+    this.props.authRegister(registerfield);
+
+  };
+
 
   handleClickOpen = () => {
     this.setState({ loginShow: true });
@@ -72,7 +124,7 @@ class Layout extends Component {
   handleClickOpenR = () => {
     this.setState({ registerShow: true });
   };
-
+  
   handleCloseR = () => {
     this.setState({ registerShow: false });
   };
@@ -94,13 +146,13 @@ class Layout extends Component {
     {
       haveLogin = "none";
     }
-    console.log(sessionUser);
+    //console.log(sessionUser);
     // if(this.props.loginStatus)
     // {
     //   this.state.loginShow = false;
     // }
 
-    console.log(haveLogin);
+    //console.log(haveLogin);
     return (
       <Aux>
         <Toolbar
@@ -164,7 +216,21 @@ class Layout extends Component {
           <TextField
             label="บัญชี"
             className={classes.textField}
-            onKeyUp={(val) => { this.usernameHandler(val); }}
+            onKeyUp={(val) => { this.usernameRegister(val); }}
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            label="ชื่อ"
+            className={classes.textField}
+            onKeyUp={(val) => { this.firstnameRegister(val); }}
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            label="นามสกุล"
+            className={classes.textField}
+            onKeyUp={(val) => { this.lastnameRegister(val); }}
             margin="normal"
             variant="outlined"
           />
@@ -172,7 +238,14 @@ class Layout extends Component {
             label="รหัสผ่าน"
             type="password"
             className={classes.textField}
-            onKeyUp={(val) => { this.passwordHandler(val); }}
+            onKeyUp={(val) => { this.passwordRegister(val); }}
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            label="เบอร์ติดต่อ"
+            className={classes.textField}
+            onKeyUp={(val) => { this.phoneRegister(val); }}
             margin="normal"
             variant="outlined"
           />
@@ -180,7 +253,8 @@ class Layout extends Component {
             variant="contained"
             size="large"
             color="primary"
-            className={classes.textField + " " + classes.dense}>
+            className={classes.textField + " " + classes.dense}
+            onClick={(val) => { this.registerCheck(val); this.handleCloseR(); }}>    
             ลงทะเบียน</Button>
           <Button
             variant="outlined"
@@ -204,7 +278,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchProps = dispacth => ({
-  authPostCheck: (loginfield) => dispacth(actionsTypes.authPostCheck(loginfield))
+  authPostCheck: (loginfield) => dispacth(actionsTypes.authPostCheck(loginfield)),
+  authRegister: (registerfield) => dispacth(actionsTypes.authRegister(registerfield))
 })
 
 

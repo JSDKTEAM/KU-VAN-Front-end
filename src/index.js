@@ -7,6 +7,9 @@ import thunk from 'redux-thunk';
 import stationsReducer from './store/reducers/stations';
 import authReducer from './store/reducers/auth';
 import settingReducer from './store/reducers/setting';
+import vanManageReducer from './store/reducers/vanManage';
+import commentReducer from './store/reducers/comment';
+import historyReserveReducer from './store/reducers/historyReserve';
 
 import './index.css';
 import App from './App';
@@ -18,6 +21,9 @@ const rootReducer = combineReducers({
     stations: stationsReducer,
     auth: authReducer,
     setting: settingReducer,
+    vanManage: vanManageReducer,
+    comment: commentReducer,
+    historyReserve: historyReserveReducer
 })
 
 const store = createStore(rootReducer, composeEnhancers(

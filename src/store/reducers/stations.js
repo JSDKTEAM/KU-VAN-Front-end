@@ -7,7 +7,8 @@ const initialState = {
     book: false,
     stations: 1,
     booked: [],
-    refeshLogin: false
+    check: false,
+    // checkLogin: false,
 }
 
 const reducer = (state = initialState, action) => {
@@ -18,7 +19,9 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCH_SCHEDULE_SUCCESS:
             return UpdateObject(state, {
                 schedule: action.fetchedSchedule,
-                loading: false
+                loading: false,
+                book: false,
+                check: false,
             })
         case actionTypes.FETCH_SCHEDULE_ERROR:
             return UpdateObject(state, {
@@ -38,15 +41,15 @@ const reducer = (state = initialState, action) => {
         //  BOOK  
         case actionTypes.BOOK_ERROR:
             return UpdateObject(state, {
-                loading: false
+                loading: false,
             })
         case actionTypes.BOOK_SUCCESS:
-            const newBook = UpdateObject(action.bookData, { id: action.bookId })
+            //const newBook = UpdateObject(action.bookData, { id: action.bookId })
             return UpdateObject(state, {
-                schedule: action.fetchedSchedule,
+                // schedule: action.fetchedSchedule,
                 loading: false,
                 book: true,
-                booked: state.booked.concat(newBook),
+                // booked: state.booked.concat(newBook),
             })
         case actionTypes.BOOK_START:
             return UpdateObject(state, { loading: true, book: true });
@@ -59,14 +62,40 @@ const reducer = (state = initialState, action) => {
         case actionTypes.INITIALBOOKED_SUCCESS:
             return UpdateObject(state, {
                 booked: action.initailbooked,
-                loading: false
+                loading: false,
+                book: false,
+                check: false,
+                stations: action.port,
             })
         case actionTypes.INITIALBOOKED_START:
-            return UpdateObject(state, { loading: true });
+            return UpdateObject(state, { 
+                loading: true,
+                book: false,
+             });
         //REFESH 
         case actionTypes.REFESH_STATION:
             return UpdateObject(state, { refeshLogin: !(state.refeshLogin) });
-        
+        //CANCLEBOOK
+        case actionTypes.CANCLEBOOK_START:
+            return UpdateObject(state, { loading: true });
+        case actionTypes.CANCLEBOOK_SUCCESS:
+            return UpdateObject(state, { 
+                loading: false,
+                book: true,
+            });
+        case actionTypes.CANCLEBOOK_ERROR:
+            return UpdateObject(state, { loading: false });
+        //ISCAME
+        case actionTypes.ISCAME_START:
+            return UpdateObject(state, { loading: true });
+        case actionTypes.ISCAME_SUCCESS:
+            return UpdateObject(state, { 
+                loading: false,
+                check: true,
+            });
+        case actionTypes.ISCAME_ERROR:
+            return UpdateObject(state, { loading: false });
+       
         default:
             return state;
     }

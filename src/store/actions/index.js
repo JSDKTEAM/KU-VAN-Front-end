@@ -2,12 +2,15 @@ export {
     fetchSchedule,
     updateTimeId,
     book,
+    cancleBook,
     initialBooked,
     refeshStation,
+    iscame,
 } from './stations';
 
 export {
-    authPostCheck
+    authPostCheck,
+    authRegister,
 }from './auth';
 
 export {
@@ -15,3 +18,18 @@ export {
     getCarByPort,
     getTimeDefaultByPort,
 }from './setting';
+
+export {
+    vanPost,
+    vanGetByPort,
+    vanDelete,
+}from './vanManage';
+
+export {
+    commentByPort,
+    AddCommentByPort,
+}from './comment';
+
+export {
+    getHistory,
+}from './historyReserve';
