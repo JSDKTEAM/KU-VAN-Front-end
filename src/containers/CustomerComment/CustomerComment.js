@@ -114,6 +114,8 @@ class AdminComment extends Component {
                                         return <CommentCus 
                                         indexsq={index}
                                         comByPort={this.props.reserve}
+                                        reserve_id = {data.reserve_id}
+                                        comment={(text) => this.HandleComment(text,data.reserve_id)}
                                         />;
                                     }
                                     // return <CommentCus 
